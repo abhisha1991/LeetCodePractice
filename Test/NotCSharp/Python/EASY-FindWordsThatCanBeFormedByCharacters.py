@@ -1,8 +1,8 @@
 #https://leetcode.com/problems/find-words-that-can-be-formed-by-characters/
 
+from collections import Counter
 class Solution:
     def countCharacters(self, words: List[str], chars: str) -> int:
-        from collections import Counter
         char_dic = dict()
         tot=0
         char_dic = Counter(chars)
