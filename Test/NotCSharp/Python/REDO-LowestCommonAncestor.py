@@ -14,31 +14,16 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        if root is None:
-            print("None")
-        else:
-            print(root.val)
-
+        # allows for node p or q itself to be the ancestor
         if root is None or root == p or root == q:
             return root
-
+        
         left = self.lowestCommonAncestor(root.left, p, q)
         right = self.lowestCommonAncestor(root.right, p, q)
-
-        if left == None:
-            if right is None:
-                print("returning None from right")
-            else:
-                print("return from right", right.val)
-            return right
-        if right == None:
-            if left is None:
-                print("returning None from left")
-            else:
-                print("return from left", left.val)
-            return left
-        print("returning root", root.val)
-        return root
+        if left and right: return root
+        if not left: return right
+        if not right: return left
+        return None
 
 s = Solution()
 t = TreeNode(3)
