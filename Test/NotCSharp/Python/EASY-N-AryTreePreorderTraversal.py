@@ -18,5 +18,6 @@ class Solution:
         while node:
             curr_node = node.pop(0)
             lst.append(curr_node.val)
-            node = curr_node.children + node
+            for i in curr_node.children[::-1]:
+                node.append(i)
         return lst
