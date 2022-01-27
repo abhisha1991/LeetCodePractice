@@ -1,31 +1,39 @@
 # https://leetcode.com/problems/odd-even-linked-list/description/
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def oddEvenList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if head is None:
             return None
-        p = head
-        q = head.next
-        if q is None:
-            return p
-        if q.next is None:
-            return p
-
-        # store the start points of p and q - ie - first and second elements
-        pstart = p
-        qstart = q
-        # we have atleast 3 nodes we know
-        while q is not None and p.next.next is not None:
-            # try 1->2->3->4->5->None
-            # try 1->2->3->4->5->6->None
-            p.next = p.next.next
-            q.next = q.next.next
-            p = p.next
-            q = q.next
-
-        if p.next is q:
-            p.next = qstart
-        return pstart
+        
+        odd = head
+        even = head.next
+        
+        if even is None:
+            return head
+        
+        if even.next is None:
+            return head
+        
+        first_even = head.next
+        
+        while odd is not None and even is not None:
+            last_odd = odd
+            
+            odd.next = even.next
+            odd = odd.next
+            
+            if odd is not None:
+                even.next = odd.next
+                even = even.next
+        
+        # this condition is important because its possible that the last odd is not updated 
+        # consider working through 1,2,3 -- if the below condition wasn't there, last_odd == 1 and not 3
+        if odd is not None:
+            last_odd = odd
+            
+        last_odd.next = first_even
+        return head
