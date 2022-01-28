@@ -1,25 +1,18 @@
 # https://leetcode.com/problems/two-sum/description/
 class Solution(object):
     def twoSum(self, nums, target):
-        dic = dict()
-        for i in nums:
-            dic[i] = target - i
-
-        ans = set()
-        for k, v in dic.items():
-            if v in dic.keys():
-                ans.add(nums.index(k))
-                ans.add(nums.index(v))
-                break
-
-        if len(ans) == 2:
-            return list(ans)
-
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        dic = {}
         for i in range(len(nums)):
-            if nums[i] == nums[list(ans)[0]] and i != list(ans)[0]:
-                ans.add(i)
-                return list(ans)
-
+            other = target - nums[i]
+            if other in dic.keys():
+                return [i, dic[other]]
+            else:
+                dic[nums[i]] = i
         return []
 
 
