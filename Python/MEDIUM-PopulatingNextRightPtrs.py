@@ -10,7 +10,8 @@ class Node:
         self.left = left
         self.right = right
         self.next = next
-"""class Solution:
+"""
+class Solution:
     def __init__(self):
         self.level = 0
         self.q = []
