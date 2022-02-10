@@ -33,7 +33,11 @@ class Solution:
             for i in range(len(node_list_in_level)-1):
                 # previous node (left) in tree view is linked to next node in same level (next right neighbor)
                 node_list_in_level[i].next = node_list_in_level[i+1]
-                
+        
+        # notice how we're returning the tree root
+        # this is because the dic nodes_by_level and its internal list node_list_in_level 
+        # contain references to the tree nodes so the linking has been established there on the same objects 
+        # so it is safe to return the tree
         return root
     
     def bfs(self):
@@ -57,6 +61,6 @@ class Solution:
                 # take an example of [1,2,3,4,5,6,7] to convince yourself that after "1" we add a "None" intentionally to signify end of level containing [2,3]
                 self.q.append(None)
             
-            # break out of infinite loop, else we will keep adding None as per line 57
+            # break out of infinite loop, else we will keep adding None as per line 61
             if len(self.q) == 1 and self.q[0] is None:
                 break
