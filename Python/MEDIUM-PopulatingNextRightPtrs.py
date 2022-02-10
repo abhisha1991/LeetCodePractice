@@ -1,69 +1,61 @@
-# Definition for binary tree with next pointer.
-# class TreeLinkNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-#         self.next = None
-
 from collections import defaultdict
 # https://leetcode.com/problems/populating-next-right-pointers-in-each-node/description/
 # basically this is an application of level order traversal printing line by line
 
-class Solution:
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""class Solution:
     def __init__(self):
         self.level = 0
-        self.dic = defaultdict(list)
         self.q = []
-
-    # @param root, a tree link node
-    # @return nothing
-    def connect(self, root):
-        self.q.append(root)
-        self.q.append(None)
-        self.bfs(root)
-        for k, v in self.dic.items():
-            for i in range(len(v) - 1):
-                v[i].next = v[i + 1]
-
-    def bfs(self, root):
+        # key is level, value is list of nodes in that level
+        self.nodes_by_level = defaultdict(list)
+        
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
         if root == None:
             return
-
-        while len(self.q) > 0:
-            first = self.q[0]
-            if first is None:
-                self.level += 1
-                self.q = self.q[1:]
-                self.q.append(None)
-            else:
-                if first.left != None:
-                    self.q.append(first.left)
-                if first.right != None:
-                    self.q.append(first.right)
-                self.q = self.q[1:]
-
-                if self.level not in self.dic.keys():
-                    self.dic[self.level] = []
-
-                self.dic[self.level].append(first)
-
-            if len(self.q) is 1 and self.q[0] is None:
-                break
-'''
-public class Solution {
-    public void connect(TreeLinkNode root) {
-        if(root == null || root.left == null) return;
-        connectNodes(root.left, root.right);
-    }
+        
+        self.q.append(root)
+        # none signifies end of level
+        self.q.append(None)
+        self.bfs()
+        
+        # do the linking of nodes by level, given that we have nodes by level
+        for level, node_list_in_level in self.nodes_by_level.items():
+            # notice how we're doing to range n-1, because the last node is linked to nothing always!
+            for i in range(len(node_list_in_level)-1):
+                # previous node (left) in tree view is linked to next node in same level (next right neighbor)
+                node_list_in_level[i].next = node_list_in_level[i+1]
+                
+        return root
     
-    public void connectNodes(TreeLinkNode node1, TreeLinkNode node2) {
-        node1.next = node2;
-        if(node1.left != null) {
-            connectNodes(node1.right, node2.left);
-            connectNodes(node1.left, node1.right);
-            connectNodes(node2.left, node2.right);
-        }
-    } 
-}
-'''
+    def bfs(self):
+        while len(self.q) > 0:
+            # get first item
+            item = self.q.pop(0)
+            
+            if item is not None:
+                # add list of nodes at a given level, in order left to right
+                self.nodes_by_level[self.level].append(item)
+                
+                # add valid children to queue
+                if item.left is not None:
+                    self.q.append(item.left)
+                if item.right is not None:
+                    self.q.append(item.right)
+            else:
+                # if item is None, level end has been reached
+                self.level +=1
+                # THIS IS VERY CLEVER - this ensures that we do the level order traversal
+                # take an example of [1,2,3,4,5,6,7] to convince yourself that after "1" we add a "None" intentionally to signify end of level containing [2,3]
+                self.q.append(None)
+            
+            # break out of infinite loop, else we will keep adding None as per line 57
+            if len(self.q) == 1 and self.q[0] is None:
+                break
