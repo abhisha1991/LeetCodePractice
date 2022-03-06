@@ -11,7 +11,7 @@ class Solution:
         if p == None and q == None:
             return True
         
-        # this means that one is not null, other is null, so the trees must not be equal
+        # this must mean one of them is not null, other is null, so they are not equal in this case        
         if p == None or q == None:
             return False
         
