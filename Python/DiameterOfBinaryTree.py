@@ -20,9 +20,17 @@ class Solution:
         right = self.diameterHelper(root.right)
         
         self.d.append(left + right)
+        # the +1 is referring to the connection between current root and the left/right branch -- whoever was max
         return max(left, right) +1
 
 '''
+        1
+       / \  
+      /   \
+     2     3
+    / \
+   4   5
+
 The key observation to make is: the longest path has to be between two leaf nodes. We can prove this with contradiction. 
 Imagine that we have found the longest path, and it is not between two leaf nodes. 
 We can extend that path by 1, by adding the child node of one of the end nodes (as at least one must have a child, given that they aren't both leaves). 
