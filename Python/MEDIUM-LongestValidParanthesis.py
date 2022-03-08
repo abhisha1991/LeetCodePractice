@@ -1,37 +1,62 @@
-# https://leetcode.com/problems/longest-valid-parentheses
+'''
+https://leetcode.com/problems/longest-valid-parentheses
+In this approach, we make use of two counters left and right. 
+
+First, we start traversing the string from the left towards the right and for every ( encountered, we increment the left counter and for every ) encountered, we increment the right counter. 
+
+Whenever left becomes equal to right, we calculate the length of the current valid string and keep track of maximum length substring found so far. 
+If right becomes greater than left we reset left and right to 0.
+
+Next, we start traversing the string from right to left and similar procedure is applied.
+'''
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
-        stack = []
-        for i in range(0, len(s)):
-            if s[i] == "(":
-                # append index of open paranthesis
-                stack.append(i)
+        if s == "":
+            return 0
+        
+        left = 0 # number of left brackets
+        right = 0 # number of right brackets
+        maxlen = 0 # overall max length
+        length = 0 # current session length
+        
+        # left to right scan
+        for i in range(len(s)):
+            if s[i] == '(':
+                left +=1                
             else:
-                # we are able to find a match
-                if stack and s[stack[-1]] == "(":
-                    stack.pop()
-                else:
-                    stack.append(i)
-        
-        # at this point, stack contains idxes of "breaking points" - where we broke a valid paranthesis substring
-        # there are gaps between the indexes, whose diff represents a valid paranthesis substring
-        # so we need to find longest valid paranthesis substring
-        # which is the difference between 2 consecutive elements in the stack
-        # so return longest difference between 2 consecutive elements in the stack 
-
-        # if stack is empty, whole string is valid
-        if not stack:
-            return len(s)
-        
-        maxlen = 0
-        
-        # set j to be the end and find max length of substring from j to top of stack
-        j = len(s)
-        
-        while stack:
-            i = stack.pop() 
-            maxlen = max(maxlen, j-i-1)
-            # make top of stack as the new "end of string"
-            j = i
+                right +=1
             
-        return max(maxlen, j)
+            # session length is always increased no matter what
+            length +=1
+            if left == right:
+                maxlen = max(length, maxlen)
+            
+            # we never expect right brackets to exceed left, if so, we have reached an invalid sub-string
+            if right > left:
+                length = 0
+                left = 0
+                right = 0
+        
+        # reset vars for right to left scan
+        length = 0
+        left = 0
+        right = 0
+
+        for i in range(len(s)-1, -1, -1):
+            if s[i] == '(':
+                left +=1
+            else:
+                right +=1
+            
+            # session length is always increased no matter what
+            length +=1
+            if left == right:
+                maxlen = max(length, maxlen)
+            
+            # we never expect left brackets to exceed right, if so, we have reached an invalid sub-string
+            if left > right:
+                length = 0
+                left = 0
+                right = 0
+        
+        return maxlen
