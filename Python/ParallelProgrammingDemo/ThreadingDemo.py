@@ -1,9 +1,10 @@
 # https://www.youtube.com/watch?v=fKl2JW_qrso
 # https://realpython.com/intro-to-python-threading/
 # https://www.youtube.com/watch?v=FChZP09Ba4E
-
+# asyncIO: https://www.youtube.com/watch?v=bs9tlDFWWdQ (concurrency in python -- accessing shared variables)
 import concurrent.futures
 import time
+import threading
 
 start = time.perf_counter()
 
@@ -38,7 +39,8 @@ for _ in range(10):
     t.start()
     threads.append(t)
 
-# notice how we need to explicitly join the threads
+# notice how we are explicitly joining the threads
+# this is bad in case we forget to join, onus is on programmer
 for thread in threads:
     thread.join()
 

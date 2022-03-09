@@ -1,3 +1,7 @@
+'''
+A multiprocessing system has more than two processors, 
+whereas Multithreading is a program execution technique that allows a single process to have multiple code segments
+'''
 import concurrent.futures
 import time
 
@@ -14,8 +18,6 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
     secs = [5, 4, 3, 2, 1]
     results = executor.map(do_something, secs)
 
-    for result in results:
-        print(result)
 
 finish = time.perf_counter()
 
