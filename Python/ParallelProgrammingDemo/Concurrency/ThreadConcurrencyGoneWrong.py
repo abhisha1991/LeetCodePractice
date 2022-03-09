@@ -31,11 +31,11 @@ def func_print():
 # say thread 1 is hosting func1 and thread 2 is hosting func2
 # now say that we came into thread1 (CPU gave thread1 access first), then on line 13, we increment counter to 1
 # now say that while counter was being incremented, CPU scheduler decides to give access to thread2
-# now we may again increment counter to 2 (line 20) before func1 has a chance to decrement on line 13 when it gets back execution control
+# now we may again increment counter to 2 (line 20) before func1 has a chance to decrement on line 14 when it gets back execution control
 # from the scheduler. Now at this point, if we print, we will observe a value of 2 - which isn't what we intended!
 
-# NOTE THAT THREADS CAN BE PRE-EMPTED BY SCHEDULER AT ANY POINT, IT IS NOT NECESSARY THAT A FUNCTION MUST COMPLETE IN A THREAD BEFORE
-# CONTROL IS GIVEN TO ANOTHER THREAD BY THE SCHEDULER
+# NOTE THAT THREADS CAN BE PRE-EMPTED BY SCHEDULER AT ANY POINT, IT IS NOT NECESSARY THAT A FUNCTION/CYCLE MUST COMPLETE IN A THREAD 
+# BEFORE CONTROL IS GIVEN TO ANOTHER THREAD BY THE SCHEDULER
 
 # ITS ENTIRELY POSSIBLE THAT ONLY A SINGLE LINE OF A FUNCTION IS EXECUTED IN A THREAD, BEFORE THE SCHEDULER PRE-EMPTS THAT THREAD 
 # AND TAKES CONTROL AWAY
