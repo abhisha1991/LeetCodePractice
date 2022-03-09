@@ -15,6 +15,21 @@ class Solution:
             sum_so_far += i
             
             # this is the critical line
+            # this is saying that if we are able to find "sum_so_far - k" in the dic keys, and has a value v
+            # it means that there are "v" ways to remove "sum_so_far - k" from the sub array so far such that we can reach a sum of k
+            # for example, consider we are using nums as [1, -1, 1, 1, 1, 1] and assume k = 3
+            # also assume we are at iteration 5, ie, 2nd last element is being processed
+            # at this point the dictionary looks something like
+            '''
+            prefix_sum_count
+            0 --> 2
+            1 --> 2
+            2 --> 1
+            ''' 
+            # now sum_so_far will be 3, ie, [1, -1, 1, 1, 1], thus, "sum_so_far - k" = 0
+            # below line in the if statement indicates, we should add prefix_sum_count[0] to the result, ie, add 2 to the result
+            # why? because there are 2 different sub arrays seen so far within [1, -1, 1, 1, 1] that give us "sum_so_far - k", which are [] and [1,-1]
+            # so we can have a sum of 3 if we considered sub array [1, -1, 1, 1, 1] (removing []) or [1, 1, 1] (removing [1,-1])
             if sum_so_far - k in prefix_sum_count.keys():
                 result += prefix_sum_count[sum_so_far - k]
             
