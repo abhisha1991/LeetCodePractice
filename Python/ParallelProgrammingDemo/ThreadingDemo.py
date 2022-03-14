@@ -9,8 +9,8 @@ import threading
 start = time.perf_counter()
 
 
-def do_something(seconds):
-    print(f'Sleeping {seconds} second(s)...')
+def do_something(seconds, second_param):
+    print(f'Sleeping {seconds} second(s)... Second param value is {second_param}')
     time.sleep(seconds)
     return f'Done Sleeping...{seconds}'
 
@@ -20,7 +20,8 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     secs = [5, 4, 3, 2, 1]
     # notice how we pass args in a function
     # notice that map runs on an iterator, so it picks up one function call for every item in the list
-    results = executor.map(do_something, secs)
+    # notice how if we have to pass a second param called "helloworld" -- common to all tasks, we have to pass that as an iterable too
+    results = executor.map(do_something, secs, ["helloworld"] * 5)
 
     for result in results:
         print(result)
@@ -35,7 +36,7 @@ for _ in range(10):
     # the main program will implicitly call "join" and wait for thread to finish
     # to create a daemon thread we can do: t = threading.Thread(target=do_something, args=[1.5], daemon=True)
     # if we explicitly call join below for the thread, even daemon threads will be waited to finish
-    t = threading.Thread(target=do_something, args=[1.5])
+    t = threading.Thread(target=do_something, args=[1.5, "hello"])
     t.start()
     threads.append(t)
 
