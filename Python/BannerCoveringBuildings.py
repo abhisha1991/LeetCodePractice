@@ -42,6 +42,7 @@ def minBannerArea(buildings):
     # 2nd element of left will assume, we cover 0th, 1st, 2nd buildings with 1 banner and so on
     # similarly, the right arr will contain last element such that we cover the last building only with 1 banner
     # 2nd last element of right arr will contain nth and n-1th buildings covered with 1 banner and so on
+    # notice that if there are 2 banners, one of the building coverings MUST start from left and the other MUST start from the right in order to cover all buildings
     left = []
     right = []
     maxh = -sys.maxsize
