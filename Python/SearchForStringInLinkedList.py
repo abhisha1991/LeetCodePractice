@@ -44,6 +44,7 @@ def contains(haystack, needle):
 
     nodeNum = 0
     # create and iterator by going through the haystack and each char of each node of the haystack
+    # time complexity is len(haystack) * len(data) because it takes that much time to create the iterator
     while haystack != None:
         nodeMap[nodeNum] = haystack
         data = haystack.text
