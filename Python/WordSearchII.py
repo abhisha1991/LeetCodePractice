@@ -1,4 +1,6 @@
 # https://leetcode.com/problems/word-search-ii
+# https://www.youtube.com/watch?v=asbcE9mZz_U
+# optimization can exist if we do pruning of nodes recursively after we have added a word
 class Trie():
     def __init__(self):
         self.isWordEnd = False
