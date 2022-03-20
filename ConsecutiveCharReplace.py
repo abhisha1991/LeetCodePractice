@@ -22,9 +22,14 @@ def convert(s):
                 arr[i] = '+'
                 arr[j] = '+'
             else:
+                # this means that the first time we compared i and j=i+1, we got no match
+                # if there was at least 1 match (ie, j>i+1), it would have been caught in the if condition above and they would have been replaced by '+' already
+                # so in that case, replace ith pos with s[i] and jth pos with s[j], ie, whatever characters were in those positions
                 if arr[i] == '':
                     arr[i] = cur
                     arr[j] = s[j]
+                # at this point, we know for sure that i and j positions dont match
+                # so we can exit out of while(j) loop and move our i ahead
                 i = j
                 breaking = True
                 break
