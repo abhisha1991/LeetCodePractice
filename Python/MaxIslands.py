@@ -1,54 +1,43 @@
 # https://leetcode.com/problems/max-area-of-island
-class Solution(object):
-    def __init__(self):
-        self.count = 0
-        self.m = 0
-        self.n = 0
-        self.counts = []
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        rows = len(grid)
+        cols = len(grid[0])
+        visited = set()
+        res = [0]
+        directions = [[0,1],[1,0],[0,-1],[-1,0]]
         
-    def maxAreaOfIsland(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        self.m = len(grid)
-        self.n = len(grid[0])
-        for i in range(self.m):
-            for j in range(self.n):
-                if grid[i][j] == 1:
-                    self.count = 0
-                    self.dfs(i, j, grid)
-                    self.counts.append(self.count)
-                else:
-                    self.count = 0
-                    
-        if not self.counts:
-            return 0
+        def dfs(r,c):
+            # if out of bounds
+            if r < 0 or c < 0 or r >= rows or c >= cols:
+                return 0
+            
+            # if water, then return 0
+            if grid[r][c] == 0:
+                return 0
+            
+            # if already visited
+            if (r,c) in visited:
+                return 0
+            
+            visited.add((r,c))
+            
+            # we have an area of at least 1, the current cell
+            ar = [1]
+            for d in directions:
+                ar.append(dfs(r + d[0], c + d[1]))    
+            
+            # sum the areas from all directions
+            res.append(sum(ar))
+            return sum(ar)
         
-        return max(self.counts)
-    
-    def isvalid(self, i, j):
-        if i < 0 or i >= self.m or j < 0 or j >= self.n:
-            return False
-        return True
-        
-    def dfs(self, i, j, grid):
-        if self.isvalid(i , j) == False:
-            return False
-        
-        if grid[i][j] == 0 or grid[i][j] == '#':
-            return False
-        
-        # mark i,j as visited
-        grid[i][j] = '#'
-        self.count +=1
-        
-        self.dfs(i+1, j, grid)
-        self.dfs(i, j+1, grid)
-        self.dfs(i-1, j, grid)
-        self.dfs(i, j-1, grid)
-        
-        return True
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    visisted = set()
+                    dfs(r, c)
+                
+        return max(res)
         
             
         
