@@ -120,7 +120,7 @@ class Solution():
 
     # this method is used for getting points p3 and p4 in o(1) time each
     def getTransformPointList(self, p, q):        
-        # get 2 points rotating p2 by 90 degrees around p1
+        # get 2 points rotating 2nd point by 90 degrees around 1st point
         # these are potential points - a and b
         a = self.rotatep2(p, q, 90)
         b = self.rotatep2(p, q, -90)
