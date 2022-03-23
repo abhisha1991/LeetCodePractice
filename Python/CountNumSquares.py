@@ -130,6 +130,7 @@ class Solution():
                 p3_two = self.rotatep2(p1, p2, -90)
                 p3_list = None
 
+                # finding p3 is o(1)
                 if self.arePointsSame(p3_one, p1) or self.arePointsSame(p3_one, p2) or (p3_one.x, p3_one.y) not in self.dic:
                     if self.arePointsSame(p3_two, p1) or self.arePointsSame(p3_two, p2) or (p3_two.x, p3_two.y) not in self.dic:
                         # neither of the 2 potential points are a valid p3
@@ -150,6 +151,10 @@ class Solution():
 
                 # notice there are 2 for loops
                 # this will be counted as o(n) because p3_list can only be of size 2 max
+                # notice that we can use the exact same method here that we used for p3 to find p4 (ie, rotate and check if it exists in dict)
+                # that would be counted as o(1), but for the sake of laziness, we're moving ahead with o(n) for p4
+                # so overall time complexity will be o(n2) if we implement the efficient method for p3, p4
+                # but in this method its o(n3)
                 for p3 in p3_list:
                     for p4 in self.points:
                         if self.arePointsSame(p4, p1) or self.arePointsSame(p4, p2) or self.arePointsSame(p4, p3):
