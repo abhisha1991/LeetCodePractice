@@ -118,6 +118,31 @@ class Solution():
             return True
         return False
 
+    # this method is used for getting points p3 and p4 in o(1) time each
+    def getTransformPointList(self, p, q):        
+        # get 2 points rotating p2 by 90 degrees around p1
+        # these are potential points - a and b
+        a = self.rotatep2(p, q, 90)
+        b = self.rotatep2(p, q, -90)
+        point_list = []
+
+        # finding new point is o(1)
+        if self.arePointsSame(a, p) or self.arePointsSame(a, q) or (a.x, a.y) not in self.dic:
+            if self.arePointsSame(b, p) or self.arePointsSame(b, q) or (b.x, b.y) not in self.dic:
+                # neither of the 2 potential points are a valid 3rd point
+                return point_list
+        else:
+            # we know at least 'a' is a valid 3rd point
+            point_list = [a]
+            # lets check for 'b' again
+            if self.arePointsSame(b, p) or self.arePointsSame(b, q) or (b.x, b.y) not in self.dic:
+                pass
+            else:
+                # both points are potential valid third points
+                point_list.append(b)
+
+        return point_list
+
     def countSquares(self):
         squares = set()
         for p1 in self.points:
@@ -125,38 +150,18 @@ class Solution():
                 if self.arePointsSame(p1, p2):
                     continue
 
-                # get 2 points rotating p2 by 90 degrees around p1
-                p3_one = self.rotatep2(p1, p2, 90)
-                p3_two = self.rotatep2(p1, p2, -90)
-                p3_list = None
-
-                # finding p3 is o(1)
-                if self.arePointsSame(p3_one, p1) or self.arePointsSame(p3_one, p2) or (p3_one.x, p3_one.y) not in self.dic:
-                    if self.arePointsSame(p3_two, p1) or self.arePointsSame(p3_two, p2) or (p3_two.x, p3_two.y) not in self.dic:
-                        # neither of the 2 potential points are a valid p3
-                        continue
-                else:
-                    # we know at least p3_one is a valid p3
-                    p3_list = [p3_one]
-                    # lets check for p3_two
-                    if self.arePointsSame(p3_two, p1) or self.arePointsSame(p3_two, p2) or (p3_two.x, p3_two.y) not in self.dic:
-                        pass
-                    else:
-                        # both points are potential valid p3 points
-                        p3_list.append(p3_two)
-
+                # anchor p1, rotate p2
+                p3_list = self.getTransformPointList(p1, p2)
                 # if we're unable to find 3rd point, iterate next
-                if not p3_list:
+                if len(p3_list) == 0:
                     continue
 
-                # notice there are 2 for loops
-                # this will be counted as o(n) because p3_list can only be of size 2 max
                 # notice that we can use the exact same method here that we used for p3 to find p4 (ie, rotate and check if it exists in dict)
-                # that would be counted as o(1), but for the sake of laziness, we're moving ahead with o(n) for p4
-                # so overall time complexity will be o(n2) if we implement the efficient method for p3, p4
-                # but in this method its o(n3)
+                # so overall time complexity will be o(n2) implementing the efficient method for p3, p4
                 for p3 in p3_list:
-                    for p4 in self.points:
+                    # anchor p3, rotate p1
+                    p4_list = self.getTransformPointList(p3, p1)
+                    for p4 in p4_list:
                         if self.arePointsSame(p4, p1) or self.arePointsSame(p4, p2) or self.arePointsSame(p4, p3):
                             continue
                         
@@ -184,11 +189,6 @@ s = Solution([(0,0), (1,0), (1,1), (0,1), (2,0), (2,1)])
 print(s.countSquares())
 '''
 
-'''
-s = Solution([(0,0), (1,0), (1,1), (0,1), (2,0), (2,1), (0,2), (1,2), (2,2)])
-print(s.countSquares())
-'''
-
 s = Solution([(1,0)])
 print(s.countSquares())
 
@@ -201,10 +201,15 @@ print(s.countSquares())
 s = Solution([])
 print(s.countSquares())
 
+s = Solution([(0,0), (1,0), (1,1), (0,1), (2,0), (2,1), (0,2), (1,2), (2,2)])
+print(s.countSquares())
+
 '''
 s = Solution([(0,0), (1,0), (1,1), (0,1), (2,0), (2,1), (0,2), (1,2), (2,2), (-1,0), (-1,1), (-1,2)])
 print(s.countSquares())
 '''
 
+'''
 s = Solution([(0,0), (1,0), (1,1), (0,1), (2,0), (2,1), (0,2), (1,2), (2,2), (-1,0), (-1,1), (-1,2), (-1,-1), (0,-1), (1,-1), (2,-1)])
 print(s.countSquares())
+'''
