@@ -1,29 +1,29 @@
 # https://leetcode.com/problems/combination-sum-ii
-class Solution(object):
-    def __init__(self):
-        self.comb = []
-        
-    def combinationSum2(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        self.helper(candidates, target, [], 0)
-        return self.comb
-    
-    def helper(self, candidates, target, arr, start):
-        if target < 0:
-            return
-        
-        if target == 0:
-            a = list(arr)
-            a.sort()
-            if a not in self.comb:
-                self.comb.append(a)
-            return
-        
-        for i in range(start, len(candidates)):
-            arr.append(candidates[i])
-            self.helper(candidates, target - candidates[i], arr, i+1)
-            arr.remove(candidates[i])
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = set()
+            
+        def helper(combo, idx):
+            if sum(combo) > target:
+                return
+            
+            if sum(combo) == target:
+                res.add(tuple(sorted(combo)))
+                return
+            
+            for i in range(len(candidates)):
+                # we track duplicates in candidates by tracking their index in a dict
+                if i not in idx:
+                    combo.append(candidates[i])
+                    # note that you are tracking an element at i, value doesn't matter
+                    idx[i] = None
+                    
+                    helper(combo, idx)
+                    
+                    # backtrack
+                    combo.pop()
+                    # delete i key from idx
+                    del idx[i]
+
+        helper([], dict())
+        return [list(i) for i in res]
