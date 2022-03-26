@@ -1,34 +1,27 @@
 # https://leetcode.com/problems/combination-sum-iii/submissions/
-class Solution(object):
-    def __init__(self):
-        self.comb = []
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        candidates = [i for i in range(1,10)]
+        res = set()
         
-    def combinationSum3(self, k, n):
-        """
-        :type k: int
-        :type n: int
-        :rtype: List[List[int]]
-        """
-        arr = set()
-        self.helper(k, n, arr)
-        return self.comb
-    
-    def helper(self, k, n, arr):
-        # sum cant be <0 and we need to stick to array length of k
-        if n < 0 or len(arr) > k:
-            return
+        def helper(combo):
+            if sum(combo) > n or len(combo) > k:
+                return
+            
+            if sum(combo) == n and len(combo) == k:
+                # create a tuple of a sorted list of the combo (which is a set)
+                # this is to avoid dupe entries in res
+                res.add((tuple(sorted(list(combo)))))
+                return
+            
+            for i in candidates:
+                # cant have dupes in combo
+                # if condition is needed, else we will go into infinite helper call
+                if i not in combo:
+                    combo.add(i)
+                    helper(combo)
+                    combo.remove(i)
+
+        helper(set())
+        return [list(i) for i in res]
         
-        if len(arr) == k and n == 0 and list(arr) not in self.comb:
-            # its important to add list(arr) and not arr. Why?
-            # because list(arr) creates a new list, and just arr is a reference
-            self.comb.append(list(arr))
-            return
-        
-        for i in range(1,10):
-            #  cant have duplicates
-            if i not in arr:
-                arr.add(i)
-                self.helper(k, n-i, arr)
-                # discard does not throw error if element is not found
-                # remove does throw error if element is not found
-                arr.discard(i)
