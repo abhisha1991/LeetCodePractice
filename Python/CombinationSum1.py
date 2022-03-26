@@ -1,31 +1,27 @@
 # https://leetcode.com/problems/combination-sum/submissions/
-class Solution(object):
-    def __init__(self):
-        self.comb = []
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = set()
         
-    def combinationSum(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        self.helper(candidates, target, [])
-        return self.comb
-    
-    def helper(self, candidates, target, arr):
-        if target < 0:
-            return
+        def helper(combo, sumCombo):
+            if sumCombo > target:
+                return
             
-        # target being 0 means that the sum is 0, ie, we have found a combination
-        if target == 0:
-            # this is to handle the duplicate case, that is why we sort array
-            a = sorted(list(arr)) 
-            if a not in self.comb:
-                self.comb.append(a)
-            return
+            if sumCombo == target:
+                # we're adding sorted tuple to avoid duplicates
+                # else we will add [2,3,3], [3,3,2] etc.
+                res.add(tuple(sorted(combo)))
+                # cant add more since all nums are positive
+                # so we'll always overshoot target after this stage
+                return
+            
+            # sum of combo is less than target
+            for i in candidates:
+                combo.append(i)
+                helper(combo, sumCombo + i)
+                combo.pop()
+            
         
-        for c in candidates:
-            arr.append(c)
-            self.helper(candidates, target - c, arr)
-            arr.remove(c)
+        helper([], 0)
+        return [list(i) for i in res]
         
