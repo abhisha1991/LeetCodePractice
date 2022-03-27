@@ -61,8 +61,8 @@ class Solution():
                 raise Error("something went wrong")
             
             if right > self.size:
-                if self.heap[left] < self.heap[parent]:
-                    self.swap(left, parent)
+                if self.heap[child] < self.heap[parent]:
+                    self.swap(child, parent)
                 child = parent
                 continue
             
@@ -71,20 +71,23 @@ class Solution():
             else:
                 child = right
             
-            if self.heap[left] < self.heap[parent]:
-                self.swap(left, parent)
+            if self.heap[child] < self.heap[parent]:
+                self.swap(child, parent)
             child = parent
                 
 s = Solution()
 s.removeMin()
 s.insert(10)
+s.insert(20)
 s.insert(1)
-s.insert(100)
-s.insert(8)
 s.insert(9)
+s.insert(7)
+s.insert(1)
+s.removeMin()
+s.insert(1)
 s.removeMin()
 s.removeMin()
 s.removeMin()
-s.removeMin()
-s.removeMin()
+s.insert(2)
+s.insert(1)
 s.removeMin()
