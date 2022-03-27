@@ -1,10 +1,21 @@
+# full explanation given in MaxHeap.py
+# see that file for more details
 class Solution():
     def __init__(self):
-        # note we always always start with index 1 in heap
-        # this allows us to get left/right children easily
-        # based on formula - left = 2i, right = 2i + 1
         self.heap = ['#']
         self.size = 0
+
+    def parent(self, child):
+        return int(child/2)
+    
+    def leftChild(self, parent):
+        return parent * 2
+    
+    def rightChild(self, parent):
+        return parent * 2 + 1
+
+    def peekMin(self):
+        return self.heap[1]
     
     def swap(self, i, j):
         tmp = self.heap[i]
@@ -16,11 +27,64 @@ class Solution():
         for i in range(1, self.size+1):
             print(self.heap[i])
 
-    def leftChild(self, parent):
-        return 2 * parent
+    def insert(self, val):
+        print(f"Inserting val: {val}")
+        self.heap.append(val)
+        self.size +=1
+        self.heapify()
+        self.print()
     
-    def rightChild(self, parent):
-        return 2 * parent + 1
+    def removeMin(self):
+        if self.size == 0:
+            return None
+        
+        ele = self.heap[1]
+        print(f"Going to remove min element: {ele}")
+        self.swap(1, self.size)
+        self.size -=1
+        self.heap.pop()
+        
+        self.heapify()
+        self.print()
     
-    def parent(self, child):
-        return int(child/2)
+    def heapify(self):
+        if self.size < 2:
+            return
+        
+        child = self.size
+        while child > 1:
+            parent = self.parent(child)
+            left = self.leftChild(parent)
+            right = self.rightChild(parent)
+
+            if child != left and child != right:
+                raise Error("something went wrong")
+            
+            if right > self.size:
+                if self.heap[left] < self.heap[parent]:
+                    self.swap(left, parent)
+                child = parent
+                continue
+            
+            if self.heap[left] < self.heap[right]:
+                child = left
+            else:
+                child = right
+            
+            if self.heap[left] < self.heap[parent]:
+                self.swap(left, parent)
+            child = parent
+                
+s = Solution()
+s.removeMin()
+s.insert(10)
+s.insert(1)
+s.insert(100)
+s.insert(8)
+s.insert(9)
+s.removeMin()
+s.removeMin()
+s.removeMin()
+s.removeMin()
+s.removeMin()
+s.removeMin()
