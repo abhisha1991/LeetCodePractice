@@ -55,7 +55,7 @@ class Solution():
         self.print()
     
     def heapify(self):
-        if self.size == 0:
+        if self.size < 2:
             return
         
         child = self.size
