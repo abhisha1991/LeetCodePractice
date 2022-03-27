@@ -8,7 +8,7 @@ class Solution:
         
         # go through every house, start with idx 1 since we need h-1 access (prev house access)
         for h in range(1, n):
-            # go through every color for present house
+            # go through every color for present house (consider painting with every color)
             for c in range(k):
                 # get best cost from previous row
                 # subject to constraint that current row cannot have same color as previous row
@@ -17,7 +17,6 @@ class Solution:
                     
                 # note we're updating the costs arr itself, in place, so no extra space
                 # so we've implicitly used memoization, not using an explicit dict
-                # but by updating the costs arr itself
                 costs[h][c] += best
         
         # the last row will contain the final costs as we paint from top to bottom
