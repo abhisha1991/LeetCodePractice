@@ -6,20 +6,14 @@ class Solution:
         if n == 0 or k == 0:
             return 0
         
-        # go through every house, start with idx 1 since we need h-1 access
-        # also because there's not much too update on row 0
+        # go through every house, start with idx 1 since we need h-1 access (prev house access)
         for h in range(1, n):
             # go through every color for present house
             for c in range(k):
-                # define min cost for current house for that particular color column
-                best = sys.maxsize
-                # you're comparing row 1 (current say) with row 0 (previous)
-                for prev_c in range(k):
-                    # constraint, you cant have current and prev color be same
-                    if c == prev_c:
-                        continue
-                    
-                    best = min(best, costs[h-1][prev_c])
+                # get best cost from previous row
+                # subject to constraint that current row cannot have same color as previous row
+                # ie, prevC != c
+                best = min([costs[h-1][prevC] for prevC in range(k) if prevC != c])
                     
                 # note we're updating the costs arr itself, in place, so no extra space
                 # so we've implicitly used memoization, not using an explicit dict
