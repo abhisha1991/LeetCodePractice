@@ -24,7 +24,7 @@ class MinHeap():
 
 # python only has implementation for minheap
 # so max heap is implemented as -1 * minheap val
-# so we have to create an abstraction to preserve this
+# so we have to create an abstraction to mask this
 class MaxHeap():
     def __init__(self, xList):
         xList = [-x for x in xList]
