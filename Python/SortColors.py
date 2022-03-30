@@ -29,4 +29,5 @@ class Solution:
         
         helper(0)
         helper(1)
+        # no need to call helper(2) because if 0,1 are sorted, then 2 is automatically sorted
             
