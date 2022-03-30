@@ -8,7 +8,7 @@ class Solution:
         # start with word
         s = word
         # see if s is in sequence
-        while sequence.count(s):
+        while s in sequence:
             res += 1
             # if 1 'word' is there
             # expand s by concating 'word' to s
