@@ -1,21 +1,13 @@
 # https://leetcode.com/problems/group-anagrams/description/
-from collections import defaultdict
 class Solution:
-    def groupAnagrams(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: List[List[str]]
-        """
-        res = []
-        dic = defaultdict(list)
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dic = dict()
         for i in strs:
-            key = i
-            key = str(sorted(key))
-            if key not in dic.keys():
-                dic[key] = []
-                dic[key].append(i)
+            # 2 words belong to the same group if their sorted versions are equal
+            si = str(sorted(i))
+            if si in dic:
+                dic[si].append(i)
             else:
-                dic[key].append(i)
-        for k,v in dic.items():
-            res.append(v)
-        return res
+                dic[si] = [i]
+        
+        return [v for k,v in dic.items()]
