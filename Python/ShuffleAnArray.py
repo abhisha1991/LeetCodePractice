@@ -16,6 +16,7 @@ class Solution:
         for i in range(n):
             # pick another index between i and n-1
             # randint picks both sides inclusive, thus n-1
+            # this also means you can swap with your self (this is a feature we want)
             idx = random.randint(i, n-1)
             
             # swap the 2 elements
