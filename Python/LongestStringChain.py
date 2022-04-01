@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/longest-string-chain 
+# https://leetcode.com/problems/longest-string-chain 
 class Solution:
     def longestStrChain(self, words: List[str]) -> int:
         if len(words) < 2:
@@ -24,9 +25,10 @@ class Solution:
                 return 0
             else:
                 if len(word) == 1:
-                    return 1
+                    res[word] = 1
+                    return res[word]
             
-            if word in res.keys():
+            if word in res:
                 return res[word]
             
             # stores number of steps it takes to get to this current word
@@ -40,10 +42,10 @@ class Solution:
                 if newWord == word:
                     continue
                 
-                if newWord not in res.keys():
-                    arr.append(dfs(newWord))
-                else:
+                if newWord in res:
                     arr.append(res[newWord])
+                else:
+                    arr.append(dfs(newWord))
             
             # number of steps it would take would be 1 + max of 
             # (all words that are 1 char less than this original word)
@@ -55,8 +57,4 @@ class Solution:
             dfs(w)
         
         # return max value, ie, max number of steps it takes to get to a word in the word list
-        maxv = 0
-        for k,v in res.items():
-            if v > maxv:
-                maxv = v
-        return maxv
+        return max(res.values())
