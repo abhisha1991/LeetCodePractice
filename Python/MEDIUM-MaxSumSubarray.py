@@ -14,6 +14,7 @@ class Solution:
                 # start remains same, update end
                 end = i
             # negative sum is a condition for resetting 
+            # notice the below is an if, not an elif
             if sumSoFar < 0:
                 sumSoFar = 0
                 # update start to next index and hope to get better
