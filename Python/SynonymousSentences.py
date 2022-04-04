@@ -27,14 +27,19 @@ class Solution:
             
             for i in range(len(words)):
                 w = words[i]
-                # if 'w' happens to be one of the special words
+                
                 # notice how 'w' can be both "happy" and "joy"
-                # initial text will have -- "I am happy and strong"
+                # initial text object 't' will have -- "I am happy and strong"
                 # then we will replace 'happy' with a synonym word in pos 'i', ie, 'joy' goes in pos 'i'
-                # this then gets added to the queue, since its not in res yet
-                # this allows us to process a sentence like "I am joy and strong"
-                # next time around, when we process synonyms of 'joy', we'll be able to get to 'cheerful' etc.
+                # this then gets added to the queue as "I am joy and strong", since its not in res yet
+                # when we process synonyms of 'joy', we'll be able to get to words like 'cheerful' etc. 
+                # (this is how we access tertiary synonyms)
+                
+                # notice after we have processed "I am happy and strong" and replaced with "I am joy and strong"
+                # we will next come after replacement of "strong" with its synonyms -- due to bfs
                 if w in dic:
+
+                    # if 'w' happens to be one of the special words, then look into its synonyms
                     for syn in dic[w]:
                         # create a new list of words to create new text
                         # replace the ith place with special synonym word of 'w'
