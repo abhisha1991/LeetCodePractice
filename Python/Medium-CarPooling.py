@@ -1,12 +1,6 @@
 # based off this: https://leetcode.com/problems/car-pooling/discuss/317611/C%2B%2BJava-O(n)-Thousand-and-One-Stops
 class Solution(object):
     def carPooling(self, trips, capacity):
-        """
-        :type trips: List[List[int]]
-        :type capacity: int
-        :rtype: bool
-        """
-        
         # people in location (persons) = # of people at each km that the car will need carry if there's a stop, default is 0 
         # 1001 as max start and end index can be 1000
         # 0 <= trips[i][1] < trips[i][2] <= 1000
@@ -20,10 +14,12 @@ class Solution(object):
             persons[end] -= passengers # subtract cap at loc at end index as people are getting off
         
         cur = 0
-        for i in persons:
+        for p in persons:
             if cur > capacity:
                 return False
-            cur += i
+            # keep adding/subtracting persons to current capacity
+            cur += p
+            
         return True
 
 class Solution2:
