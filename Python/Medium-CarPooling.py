@@ -1,4 +1,4 @@
-# based off this: https://leetcode.com/problems/car-pooling/discuss/317611/C%2B%2BJava-O(n)-Thousand-and-One-Stops
+# https://leetcode.com/problems/car-pooling/
 class Solution(object):
     def carPooling(self, trips, capacity):
         # people in location (persons) = # of people at each km that the car will need carry if there's a stop, default is 0 
