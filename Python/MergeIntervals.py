@@ -1,34 +1,32 @@
-# https://leetcode.com/problems/merge-intervals/submissions/
-class Solution(object):
-    def merge(self, intervals):
-        """
-        :type intervals: List[List[int]]
-        :rtype: List[List[int]]
-        """
-        # sort intervals by first key
-        intervals.sort()
-        if len(intervals) == 0:
-            return []
-        stack = []
-        # add first interval
-        stack.append(intervals[0])
-        # skip 0th interval as we have already added it, so we start with 1
-        # consider (a,b) which is top of stack
-        # consider (c,d) which is the curr element
-        # note that a <= b - why? because (a,b) is start and end of interval
-        # note that a <= c, why? because we have sorted intervals in the beginning
-        # case: a <= c <= b --> merge --> [a, max(b,d)]
-        # case: a <= b < c --> dont merge
-        # case: a <= d <= b --> note a <=c, this means (a,b) captures the entire segment, so no need for (c,d)
-        for i in range(1, len(intervals)):
-            curr = intervals[i]
-            st = stack[-1]
-            if (curr[0] >= st[0] and curr[0] <= st[1]):
-                end = max(st[1], curr[1])
-                stack.pop()
-                stack.append([st[0], end])
-            elif curr[0] > st[1]:
-                stack.append(curr)
-                    
-                    
-        return stack
+# https://leetcode.com/problems/merge-intervals/submissions/    
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        if len(intervals) <= 1:
+            return intervals
+        
+        intervals = sorted(intervals, key=lambda x: (x[0], x[1]))
+        res = []
+        while len(intervals) > 1:
+            cur = intervals.pop(0)
+            nxt = intervals.pop(0)
+            # cur = [a,b] and nxt = [c,d]
+            
+            # a < c and b < c -- no merge
+            if cur[0] < nxt[0] and cur[1] < nxt[0]:
+                res.append(cur)
+                # insert nxt back to the intervals at 0 position
+                # so nxt has a chance to be cur next iteration
+                # and has the chance to merge with other future intervals
+                intervals.insert(0, nxt)
+                continue
+            
+            # a <= c <= b, then new interval is [min(a,c), max(b,d)]
+            # we know "c" is always greater than equal to "a" (sorted intervals)
+            # so just choose "a" by default for lower limit
+            if cur[0] <= nxt[0] and nxt[0] <= cur[1]:
+                intervals.insert(0, [cur[0], max(cur[1], nxt[1])])
+        
+        # there is a single interval remaining in intervals
+        # pop and add to res
+        res.append(intervals.pop())
+        return res
