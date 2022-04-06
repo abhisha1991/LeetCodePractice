@@ -41,13 +41,14 @@ class Solution:
             h1 = head1.val
             h2 = head2.val
             if h1 <= h2:
-                # pick head 1
+                # pick head 1 and progress head1
                 head.next = head1
                 head1 = head1.next
             else:
+                # pick head 2 and progress head2
                 head.next = head2
                 head2 = head2.next
-            
+            # no matter what, always progress head
             head = head.next        
         
         # at this point, one of list1 or list2 is complete
