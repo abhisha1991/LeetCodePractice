@@ -40,6 +40,7 @@ class NumMatrix:
         if not self.mat:
             return 0
         
+        # total sum up to the end row/col
         total = self.mat[row2][col2]
         
         # try this with an example
@@ -51,6 +52,15 @@ class NumMatrix:
         say you want to get a range 1,1 to 2,2 ==> 5 + 6 + 8 + 9 = 28
         so this will be 45 - 6 - 12 + 1 = 28
         so total = mat[2][2] - mat[0][2] - mat[2][0] + mat[0][0]
+        
+        this piece is important, observe the if statements 
+        observe which elements we're trying to subtract from total
+
+        #1 --> mat[row-1][col2] is top right element prefix sum (just outside of box of interest)
+        #2 --> mat[row2][col1-1] is bottom left element prefix sum (just outside box of interest)
+
+        again, if we subtract both these from total, 
+        we've subtracted the "common matrix" (which was part of #1 and #2) twice, so we need to add it back, ie, mat[row1-1][col1-1]
         '''
         
         if row1 - 1 >= 0:
