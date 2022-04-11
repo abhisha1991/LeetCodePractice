@@ -56,7 +56,7 @@ class NumMatrix:
         this piece is important, observe the if statements 
         observe which elements we're trying to subtract from total
 
-        #1 --> mat[row-1][col2] is top right element prefix sum (just outside of box of interest)
+        #1 --> mat[row1-1][col2] is top right element prefix sum (just outside of box of interest)
         #2 --> mat[row2][col1-1] is bottom left element prefix sum (just outside box of interest)
 
         again, if we subtract both these from total, 
