@@ -38,8 +38,8 @@ class Solution():
         profit = 0
         arr = [(self.future[i], self.cur[i]) for i in range(len(self.cur))]
 
-        # similar to knapsack problem, sort by sell value / buy value
-        # ie, which gives us most profit, and then make those trades
+        # similar to knapsack problem, sort by sell value / buy value desc
+        # ie, sort by ratio which gives us most profit, and then make those trades
         # assumes buy price is positive and not 0
         arr = sorted(arr, key=lambda x: x[0]/x[1], reverse=True)
         i = 0
