@@ -10,8 +10,8 @@ class Solution:
         # now we know that there is more gas than cost, so a soln is possible
         # we just need to find the start index
         
-        # also note, there is only ONE start point 
-        # which is the earliest point with which we were able to complete the arr pass
+        # also note, there is only ONE start point per the final answer, there cannot be 2 start indices
+        # this will be the earliest point with which we were able to complete the arr pass
         # without having tank go down to less than 0 
         # https://www.youtube.com/watch?v=lJwbPZGo05A
         tank = 0
