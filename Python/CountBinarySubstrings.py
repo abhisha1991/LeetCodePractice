@@ -6,6 +6,9 @@ class Solution:
         
         # groups represents a consecutive count of 1s or 0s
         # for example, 00111001 will be [2, 3, 2, 1]
+        # the important thing here is to capture transition groups, not the actual value that is transitioning
+        # why? Imgine if you had 00011 or 11100, the groups array will look like [3, 2] for both. 
+        # In both cases, the number of binary substrings we can form are 2 - ie, 01 (or 10) and 0011 (or 1100)
         groups = []
         
         # char at first index
