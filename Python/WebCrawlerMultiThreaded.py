@@ -12,7 +12,7 @@
 
 import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
-
+# read through this: https://superfastpython.com/threadpoolexecutor-in-python/
 class Solution:
     def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
         # list of urls we have parsed
