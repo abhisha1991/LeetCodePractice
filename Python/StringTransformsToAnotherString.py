@@ -53,6 +53,7 @@ class Solution:
         # we can only have lower case chars in our redirection strategy (since input can have only lowercase chars), so if all 26 chars are already present
         # there's no way left to redirect to something that is unused (z in above example)
         # so if "dests" contained 26 unique letters, this would be false!
+        # technically if all ASCII chars were involved, then we could change the redirection chars to say '#'
         if len(dests) < 26:
             return True
         
