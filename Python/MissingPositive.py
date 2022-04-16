@@ -5,6 +5,7 @@ class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         n = len(nums)
         # as mentioned in other solution, negative numbers are not needed since we're finding only positive numbers
+        # set negatives to 0, we'll need to "use" negative notation on a number later on
         for i in range(n):
             if nums[i] < 0:
                 nums[i] = 0 
