@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/reaching-points/
 class Solution:
     # this is the optimal solution: https://www.youtube.com/watch?v=tPr5Uae6Drc
     '''
