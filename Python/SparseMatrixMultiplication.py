@@ -50,7 +50,7 @@ class Solution:
                          1 1      3 3
                 
                 we are saying that for row 1, for index x = 1, value is 0, 
-                so we're skipping the 1s that are tagged with # 
+                so we're skipping the multiplications with 1s that are tagged with # 
                 '''
                 if m1[x] != 0:
                     for col in range(n):
