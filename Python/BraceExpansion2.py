@@ -25,9 +25,10 @@ class Solution:
                 while stack and stack[-1] != '{':
                     ele = stack.pop()
                     if type(ele) == list:
-                        # concat all lists up till {
+                        # concat all char lists up till {
                         res += ele
                 
+                # pop out the opening bracket
                 if stack and stack[-1] == '{':
                     stack.pop()
                 
