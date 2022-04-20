@@ -1,4 +1,5 @@
 # https://www.youtube.com/watch?v=T6E74ypY_tU
+# https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
 import sys
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
