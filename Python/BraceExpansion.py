@@ -1,4 +1,5 @@
-# 
+# https://leetcode.com/problems/brace-expansion
+import itertools
 class Solution:
     def expand(self, s: str) -> List[str]:
         dic = dict()
