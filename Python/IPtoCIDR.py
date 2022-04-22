@@ -11,8 +11,8 @@ class Solution:
 
         def num_to_ip(num):
             mask = 255
-            print(f"num2ip parts are {num >> 24}, {(num >> 16) & mask}, {(num >> 8) & mask}, {num & mask}")
-            return f'{num >> 24}.{(num >> 16) & mask}.{(num >> 8) & mask}.{num & mask}'
+            print(f"num2ip parts are {num >> 24 & mask}, {(num >> 16) & mask}, {(num >> 8) & mask}, {num & mask}")
+            return f'{num >> 24 & mask}.{(num >> 16) & mask}.{(num >> 8) & mask}.{num & mask}'
         
         res = []
         num = ip_to_num(ip)
@@ -27,6 +27,10 @@ class Solution:
                 # now if we 'and' these 2 numbers 01010 and 10110 -- 00010
                 # this states that in the number 10, the lowest 1 bit is at index 2nd last
                 # https://stackoverflow.com/questions/12247186/find-the-lowest-set-bit
+
+                # in terms of IP addresses, this means that if low bit was at say 4th last position, ie,
+                # we have a number like 16, whose low bit should be at 4th last position, ie, 10000
+                # then we can claim 16 IP addresses at once 
                 low_bit = num & (-num)
 
             # find the largest low bit you can get 
@@ -38,5 +42,6 @@ class Solution:
             # finally low bit is less than n, so we can claim these many IPs
             n -= low_bit
             res.append(f'{num_to_ip(num)}/{32 - int(log2(low_bit))}')
+            # adjust the address up by the number of addresses we have accounted for
             num += low_bit
         return res
