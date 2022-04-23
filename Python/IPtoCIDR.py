@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/ip-to-cidr/
+# didn't understand this problem too well, will need to revisit
 from math import log2
 class Solution:
     def ipToCIDR(self, ip: str, n: int) -> List[str]:
