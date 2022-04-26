@@ -20,6 +20,8 @@ class Solution:
             dic[i] = l.val
             l = l.next
         
+        # note at this point "l" has already reached mid way of linked list
+        # notice how we're starting j's iteration from i+1, this is the twin part of the calculation
         for j in range(i+1, n):
             # calcualate twin index, which should match what we have put into dic already
             idx = n-1-j
