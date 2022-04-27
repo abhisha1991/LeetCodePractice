@@ -1,5 +1,3 @@
-# https://www.geeksforgeeks.org/heap-queue-or-heapq-in-python
-# This is a file that uses direct heap functionality in python, so we don't have to build it from scrach
 import heapq
 
 class MinHeap():
@@ -48,35 +46,45 @@ class MaxHeap():
     def print(self):
         print(f"Heap is {[-x for x in self.heap]}")
 
-print("*** Going to init MIN heap ***")
+        
+class MedianFinder:
 
-s = MinHeap([5,6,10,3,5,8,3,9,43])
-s.print()
-s.insert(2)
-s.print()
-s.peekMin()
-s.insert(1)
-s.print()
-s.peekMin()
-s.deleteMin()
-s.print()
-s.deleteMin()
-s.deleteMin()
-s.print()
+    def __init__(self):
+        self.hmax = MaxHeap([])
+        self.hmin = MinHeap([])
 
-print()
-print("*** Going to init MAX heap ***")
+    def addNum(self, num: int) -> None:
+        if len(self.hmax.heap) == 0 or num < self.hmax.peekMax():
+            self.hmax.insert(num)
+        else:
+            self.hmin.insert(num)
+            
+        # balance the 2 heaps
+        if len(self.hmax.heap) > len(self.hmin.heap) + 1:
+            e = self.hmax.deleteMax()
+            self.hmin.insert(e)
+        
+        elif len(self.hmin.heap) > len(self.hmax.heap) + 1:
+            e = self.hmin.deleteMin()
+            self.hmax.insert(e)
+            
 
-s = MaxHeap([5,6,10,3,5,8,3,9,43])
-s.print()
-s.insert(200)
-s.print()
-s.peekMax()
-s.insert(100)
-s.print()
-s.peekMax()
-s.deleteMax()
-s.print()
-s.deleteMax()
-s.deleteMax()
-s.print()
+    def findMedian(self) -> float:
+        mnhsize = len(self.hmin.heap)
+        mxhsize = len(self.hmax.heap)
+        n = mnhsize + mxhsize
+        if n % 2 == 1:
+            if mnhsize > mxhsize:
+                return self.hmin.peekMin()
+            else:
+                return self.hmax.peekMax()
+        else:
+            n1 = self.hmax.peekMax()
+            n2 = self.hmin.peekMin()
+            return (n1+n2)/2
+
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
