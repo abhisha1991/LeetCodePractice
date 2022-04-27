@@ -6,6 +6,7 @@ class Solution:
             wordset.add(w)
         
         res = []
+        # can add a cache to in this function to check: word in cache, then return true early on (optimization)
         def dfs(word):
             for i in range(1, len(word)):
                 left = word[:i]
