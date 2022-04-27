@@ -44,4 +44,5 @@ class Solution:
             else:
                 arr[i] = arr[i-1] + arr[i]
         
+        # make sure you remove the excessive element you added in arr to make it length+1, to accommodate overflowing of end+1 index
         return arr[:length]
