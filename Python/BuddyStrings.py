@@ -9,7 +9,7 @@ class Solution:
         if s == goal and len(set(s)) < len(s):
             return True
         
-        # find the place where the indices actually differ
+        # find the indexes where the strings actually differ
         diff = []
         for i in range(len(s)):
             if s[i] != goal[i]:
