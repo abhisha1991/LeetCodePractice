@@ -4,7 +4,27 @@ from collections import defaultdict
 class Solution:
     def __init__(self):
         self.res = True
-        
+    
+    # we need to create a bipartite graph
+    # bipartite graph is one in which the vertices can belong to one of 2 sets u and v,
+    # u and v are disjoint and every edge of graph connects a vertex in u to a vertex in v
+    # dislike = [[1,2], [2,3], [2,4], [3,5], [4,5]] can be partitioned into 2 sets u and v
+    # u = [1, 3, 4], v = [2, 5]
+    '''
+            U      V
+         == 1 --/- 2 (notice 1,2 are connected "across" u,v)
+         |  3 -/-- 5 (notice 3,5 are connected "across" u,v)
+         == 4 /____| (notice 4,2 are connected "across" u,v)
+                     (notice 4,5 are connected "across" u,v) etc.
+            
+            if we had an additional point, say [1,4] in dislike
+            we would have to connect "within" the same set U (shown in left part of diagram) -- this would violate the definition of a bipartite graph
+    '''
+    # bipartite graph can only have even edge length cycle, not odd edge length cycle
+    # even edge length cycle can be detected through vertex coloring of a graph with 2 colors
+    # so to show a graph is bipartite we try to do 2 color vertex coloring ==> to imply that we have an even edge length cycle
+    # if we're able to do this, we can obtain a bipartite graph ==> and since we can obtain bipartite graph, we can separate (partition) the nodes into 2 sets u,v
+    # see video if this piece is unclear 
     def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
         notlike = defaultdict(list)
         
