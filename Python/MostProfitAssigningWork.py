@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/most-profit-assigning-work/
 class Solution:
     # this is o(nlogN) solution as it does binary search, this is more straight forward to understand
     def maxProfitAssignment2(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
