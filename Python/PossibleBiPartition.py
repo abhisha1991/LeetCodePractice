@@ -21,7 +21,7 @@ class Solution:
             we would have to connect "within" the same set U (shown in left part of diagram) -- this would violate the definition of a bipartite graph
     '''
     # bipartite graph can only have even edge length cycle, not odd edge length cycle
-    # even edge length cycle can be detected through vertex coloring of a graph with 2 colors
+    # even edge length cycle can be detected through vertex coloring of a graph with 2 colors (where no 2 vertices adjacent to each other share same color)
     # so to show a graph is bipartite we try to do 2 color vertex coloring ==> to imply that we have an even edge length cycle
     # if we're able to do this, we can obtain a bipartite graph ==> and since we can obtain bipartite graph, we can separate (partition) the nodes into 2 sets u,v
     # see video if this piece is unclear 
