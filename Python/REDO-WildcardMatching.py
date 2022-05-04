@@ -1,89 +1,88 @@
 # https://www.youtube.com/watch?v=3ZDZ-N0EPV0
 # https://leetcode.com/problems/wildcard-matching/description/
-class Solution(object):
-    def isMatch(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: bool
-        """
-        # if both string and pattern are 0 length
-        if len(s) == len(p) == 0:
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        '''
+        say string  = xaylmz
+        say pattern = x?y*z
+           ''   x   ?   y   *   z
+       ''  T    F   F   F   F   F
+        
+        x  F    T   F   F   F   F
+         
+        a  F    F   T   F   F   F
+        
+        y  F    F   F   T   T   F
+        
+        l  F    F   F   F   T   F
+        
+        m  F    F   F   F   T   F
+        
+        z  F    F   F   F   T   T
+        
+        answer is at bottom right, res[m-1][n-1]
+        
+        1. if pattern[j] == string[i] or pattern[j] == '?' --> then look at diagonally top left
+        
+        2. if pattern[j] == '*' --> then look at res[i-1][j] or res[i][j-1], ie, left or top
+            - left implies that * accounts for 0 char in string (example 'xay' vs 'x?y*')
+            - top implies that * accounts for as 1 or more char in string (example 'xaylm' vs 'x?y*')
+        
+        3. if pattern[j] != string[i], then false
+        
+        res[0][0] is always true, since empty pattern matches empty string
+        1st column is always false since empty pattern can never match a string of any length > 0
+        1st row is mostly false, but can be true if pattern[0] == '*'
+        '''
+        m = len(s)
+        n = len(p)
+        
+        if m == 0 and n == 0:
             return True
-
-        # if string was "" and pattern was "*"
-        setp = set(x for x in p)
-        if len(s) == 0 and setp.pop() == '*':
-            return True
-
-        # if one is empty and other is not
-        if len(s) == 0 or len(p) == 0:
+        
+        # string is non empty but pattern is empty
+        if n == 0:
             return False
-
-        # handling a case where string is "ho" and pattern is "***ho"
-        temp = "*"
-        count = 0
+        
+        res = [[False] * (n+1) for i in range(m+1)]
+        res[0][0] = True
+        
+        # 1st col is always false
+        for i in range(1, m+1):
+            res[i][0] = False
+        
+        # if pattern starts with *, then we have 1st row be true
+        # till this is the case
         if p[0] == '*':
-            for i in p:
-                if i == '*':
-                    count += 1
+            for i in range(1, n+1):
+                if p[i-1] == '*':
+                    res[0][i] = True
                 else:
+                    # p[i-1] is not * anymore, so break!
+                    # will handle a case like *ab* -- the 2nd * should NOT be true!
                     break
-
-            # converting the pattern to become "*ho" from "***ho"
-            p = temp + p[count:]
-
-        m = len(s) + 1
-        n = len(p) + 1
-        arr = []
-        # by default everything is false
-        for i in range(m):
-            temp = [False] * n
-            arr.append(temp)
-
-        for i in range(m):
-            for j in range(n):
-                # 2 empty strings are always true
-                if i == 0 and j == 0:
-                    arr[i][j] = True
+        
+        for i in range(m+1):
+            for j in range(n+1):
+                if i == 0 or j == 0:
+                    # we have already taken care of 1st row and 1st col
                     continue
-
-                # empty pattern matched with string is always false
-                if j == 0:
-                    arr[i][j] = False
+                
+                # now i,j are at least 1 each
+                # ii and jj are pointing to string and pattern indices respectively
+                # why -1? because we have an extra space in front of both pattern and string, which 
+                # makes res dimensions 1 bigger than pattern/string
+                ii = i-1
+                jj = j-1
+                
+                if p[jj] == s[ii] or p[jj] == '?':
+                    res[i][j] = res[i-1][j-1]
                     continue
-
-                # empty string with pattern such that first element of pattern is '*'
-                if j == 1 and i == 0 and p[j - 1] == '*':
-                    arr[i][j] = True
+                
+                if p[jj] == '*':
+                    res[i][j] = res[i-1][j] or res[i][j-1]
                     continue
-
-                # empty string with pattern p
-                if i == 0:
-                    arr[i][j] = False
-                    continue
-
-                # if the string and pattern last elements are the same OR
-                # if the last pattern char can take on any letter (can be forced to become similar to string's last char)
-                # example, "xa" and "x?" is the same as comparing "x" with "x" as '?' matches 'a'
-                # in this case, just let this be whatever you would have achieved without the last characters in place
-                if s[i - 1] == p[j - 1] or p[j - 1] == '?':
-                    arr[i][j] = arr[i - 1][j - 1]
-                    continue
-
-                # watch 10:00 to 10:30 in the video above
-                # or basically, we're saying that "xay" vs "x?y*" -> implies
-                # we can make '*' represent no character in which case we check if "xay" matches "x?y",
-                # which we get from arr[i][j-1] (j-1 means we remove last element from pattern, ie - remove '*')
-                # OR
-                # we make '*' represent 1 or more character, ie - "xa" vs "x?y", which is arr[i-1][j-1]
-                # OR
-                # we make '*' eat up 1 character but keep '*' to eat up more characters - 'xa' vs 'x?y*' or arr[i-1][j]
-                # there's no need to find arr[i-2][j], arr[i-3][j] etc.... because the above would give the result for all
-                elif p[j - 1] == '*':
-                    arr[i][j] = arr[i - 1][j] or arr[i][j - 1]
-
-                else:
-                    arr[i][j] = False
-
-        return arr[m - 1][n - 1]
+                
+                # default is false when pattern[jj] != string[ii]
+                    
+        return res[m][n]
