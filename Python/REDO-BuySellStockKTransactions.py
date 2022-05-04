@@ -61,11 +61,8 @@ class Solution:
                     # if you decide to sell on day j for a stock you bought on day m, then profit from that sale is
                     # (price on day j - price on day m) + your earlier state [without making this transaction on day m]
                     transact = stocks[j] - stocks[m] + arr[i-1][m]
-                    # max always takes in an iterable! remember - hence we give a list below
-                    # do max between earlier max, x and the result of doing no transaction arr[i][j-1]
-                    # (same state as j-1 th day)
+                    
                     tmpmx = mx
-
                     # find max between no transaction (arr[i][j-1]), doing a transaction and max over all m days considered so far (m < j)
                     mx = max([arr[i][j-1], transact, tmpmx])
 
@@ -75,7 +72,7 @@ class Solution:
                 
                 # finally assign the cell for i,j to global max across all m days
                 arr[i][j] = mx
-                
+
                 # if your profit increased on that day - ie - you made a transaction, else you would be in prev state
                 if arr[i][j] > arr[i][j-1] and arr[i][j] != arr[i-1][j]:
                     print("Bought stock on day {}".format(dayPurchased))
