@@ -48,7 +48,7 @@ class Solution:
                 
                 we know that chars at i differ, ie, cur[i] != target[i], what we want to do is find 
                 another position j in cur, such that cur[j] == target[i], ie, cur[j] == 'a', which is at j=7 and j=9
-                why do we want to match cur[j] with target[i]? because we want to make cur as close to target!
+                why do we want to match cur[j] with target[i]? because we want to make cur as close to target via a swap!
                 
                 now which j should be chosen? 7 or 9?, if we chose to swap cur[i] with j=7, then we will make a bad
                 choice! why? because we will mess up the relation such that target[7] would no longer match cur[7] -
@@ -58,7 +58,7 @@ class Solution:
                 which will become 'a' and additionally, we will make cur[9] == target[9], ie, 'b' - so we will bring
                 cur closer to target!
                 
-                So these are our 2 conditions of choosing j below!
+                So these are our 2 conditions of choosing swap below!
                 '''
                 if cur[j] == target[i] and target[j] != cur[j]:
                     t = swap(cur, i, j)
