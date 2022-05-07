@@ -13,6 +13,7 @@ class Solution:
                     |     |  |  |  |
                     |  |  |  |  |  |
                 -------------------------
+             idx    0  1  2  3  4  5
              h[i]   2  1  5  6  2  3
              left   0  0  2  3  2  5
              right  0  5  3  3  5  5
@@ -20,8 +21,11 @@ class Solution:
         here the significance of left and right is most important
         
         consider a rectangle with height 5, 
-        we are trying to store left to be the earliest index that is >=5
-        we are trying to store right to be the latest index that is >=5
+        we are trying to store left to be the earliest index that is >=5 without interruption
+        we are trying to store right to be the latest index that is >=5 without interruption
+
+        "interruption" here means that there should be consecutive rects with height >=5 for them to be considered
+        imagine if you have a rect of height 100 at the end, even then the left and right for rect 5 will NOT change, since 5 has been "interrupted" by h[4] = 2
         
         both left and right are inclusive of the current rect itself, thus rect with height 5 gets left=2, right=3
         
