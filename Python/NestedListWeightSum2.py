@@ -64,10 +64,6 @@ class Solution:
     def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
         self.helperOptimal(nestedList, 1)
         ans = (self.maxD+1) * sum(self.nums) - self.res
-        print(f"maxD is {self.maxD}")
-        print(f"nums is {self.nums}")
-        print(f"res is {self.res}")
-        
         return ans
     
     def helperOptimal(self, nl, depth):
