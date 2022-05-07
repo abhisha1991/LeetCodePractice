@@ -1,94 +1,113 @@
 # https://leetcode.com/problems/largest-rectangle-in-histogram/
-
-# https://leetcode.com/problems/largest-rectangle-in-histogram/discuss/28902/5ms-O(n)-Java-solution-explained-(beats-96)
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-        len_bars = len(heights)
-        if len_bars == 0:
-            return 0
-        if len_bars == 1:
-            return heights[0]
+        h = heights
+        lenh = len(h)
+        '''
+        consider running example of 2,1,5,6,2,3
         
-        area = 0
-        lessfl = ['#'] * len_bars 
-        lessfl[0] = -1
-        lessfr = ['#'] * len_bars
-        lessfr[-1] = len_bars
+                             |
+                          |  |
+                          |  |
+                          |  |     |
+                    |     |  |  |  |
+                    |  |  |  |  |  |
+                -------------------------
+             h[i]   2  1  5  6  2  3
+             left   0  0  2  3  2  5
+             right  0  5  3  3  5  5
         
-        for i in range(1, len_bars):
-            p = i-1
-            
-            while p >= 0 and heights[p] >= heights[i]:
-                p = lessfl[p]
-            
-            lessfl[i] = p
+        here the significance of left and right is most important
         
-        for i in range(len_bars-2, -1, -1):
-            p = i+1
-            
-            while p < len_bars and heights[p] >= heights[i]:
-                p = lessfr[p]
-            
-            lessfr[i] = p
+        consider a rectangle with height 5, 
+        we are trying to store left to be the earliest index that is >=5
+        we are trying to store right to be the latest index that is >=5
         
+        both left and right are inclusive of the current rect itself, thus rect with height 5 gets left=2, right=3
         
-        for i in range(0, len_bars):
-            area = max(area, heights[i] * (lessfr[i] - lessfl[i] - 1))
+        notice that for rect with height 1 (shortest rect), left = 0 and right = 5, ie, it covers the entire width
+        '''
         
-        return area
-
-# sub optimal solution (o n square)
-class Solution2:
-    def largestRectangleArea(self, heights: List[int]) -> int:
-        len_bars = len(heights)
-        if len_bars == 0:
-            return 0
-        if len_bars == 1:
-            return heights[0]
+        # stack stores indices not heights
+        # height can be obtained by doing something like h[stack[-1]]
+        stack = []
         
-        start = 0
-        end = len_bars - 1
-        curr = 0
-        area = 0
-        curr_results = dict()
+        # left stores the left boundary of a given rectangle at position i
+        # right stores the right boundary of a given rectange at position i
+        left = [sys.maxsize] * lenh
+        right = [sys.maxsize] * lenh
         
-        while curr < len_bars:
-            width = 1
-            curr_height = heights[curr]
-            ar = 0
-            
-            i = curr - 1
-            prev_same = False
-            # if prev is same as curr height, then area is same as prev
-            if i >=0 and heights[i] == curr_height:
-                prev_same = True
-                ar = curr_results[i]
-            
-            if not prev_same:
-                # front pass
-                i = curr + 1
-                while i <= end:
-                    if curr_height <= heights[i]:
-                        width +=1
-                        i +=1
-                    else:
-                        break
+        i = 0
+        # move left to right
+        while i < lenh:
+            if i == 0 or not stack:
+                stack.append(i)
+                left[i] = i
                 
-                # back pass
-                i = curr - 1
-                while i >= start:        
-                    if curr_height <= heights[i]:
-                        width +=1
-                        i -=1
-                    else:
-                        break
-                    
-                ar = width * curr_height
+                i +=1
+                continue
                 
-            curr_results[curr] = ar
-            curr +=1
-             
-            area = max(area, ar)
+            if h[stack[-1]] < h[i]:
+                stack.append(i)
+                left[i] = i
+                i +=1
+                continue
+            
+            # now height of top of stack element is greater than equal to current height
+            # so keep popping till you reach a height that is less than current
+            while stack and h[stack[-1]] >= h[i]:
+                stack.pop()
+            
+            # now stack top will have an index whose height is less than h[i]
+            if stack:
+                # left boundary will be immediate rhs nbr of this element which is less than current element
+                # hence the +1 to stack top index
+                left[i] = stack[-1] + 1
+            else:
+                left[i] = 0
+            
+            stack.append(i)
+            i +=1
         
-        #print(curr_results)
-        return area
+        
+        # move right to left, re-init variables
+        stack = []
+        i = lenh-1
+        while i > -1:
+            if i == lenh-1 or not stack:
+                stack.append(i)
+                right[i] = i
+                
+                i -=1
+                continue
+            
+            if h[stack[-1]] < h[i]:
+                stack.append(i)
+                right[i] = i
+                i -=1
+                continue
+            
+            # now height of top of stack element is greater than equal to current height
+            # so keep popping till you reach a height that is less than current
+            while stack and h[stack[-1]] >= h[i]:
+                stack.pop()
+                
+            # now stack top will have an index whose height is less than h[i]
+            if stack:
+                # so the right boundary will be stack top element (the one lesser than h[i]) - 1
+                # why -1? because that will point to the left nbr of the element who is lesser than h[i]
+                right[i] = stack[-1] - 1
+            else:
+                right[i] = lenh-1
+            
+            stack.append(i)
+            i-=1
+        
+        maxar = 0
+        for i in range(len(h)):
+            # why doing the +1 when calculating the width?
+            # consider above example, notice rect with height 5, its left and right are both 2 and 3
+            # so in order to get width of 2, ie, rect with height 5 and 6, we need to do 3-2+1
+            w = (right[i]-left[i] + 1)
+            maxar = max(maxar, h[i] * w)
+        return maxar
