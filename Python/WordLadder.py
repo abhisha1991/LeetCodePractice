@@ -1,63 +1,46 @@
-# https://www.geeksforgeeks.org/word-ladder-length-of-shortest-chain-to-reach-a-target-word/
 # https://leetcode.com/problems/word-ladder/description/
-# this solution is close to correct, however, it doesnt give the optimal number of hops
-class Solution(object):
-    def __init__(self):
-        self.count = 0
-        self.nbors = []
-        self.visited = []
-
-    def ladderLength(self, beginWord, endWord, wordList):
-        wordList = set(wordList)
-        if self.ladderFind(beginWord, endWord, wordList):
-            return self.count
+from collections import defaultdict
+class Solution:
+    # time and space complexity that makes this acceptible on leetcode is o(m*m*n) 
+    # where n = len(wordList), which can be 5000 and m = len(word) in wordList, which is small (max 10)
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        wordList.append(beginWord)
+        dicPattern2Words = defaultdict(list)
+        dicWord2Patterns = defaultdict(list)
+        
+        for i in range(len(wordList)):
+            cur = wordList[i]
+            for j in range(len(cur)):
+                # so a word like hot becomes -- '*ot', 'h*t', 'ho*'
+                # and we store a mapping from word to pattern and pattern to word
+                pattern = cur[:j] + '*' + cur[j+1:]
+                
+                if pattern not in dicPattern2Words:
+                    dicPattern2Words[pattern] = [cur]
+                else:
+                    dicPattern2Words[pattern].append(cur)
+                
+                if cur not in dicWord2Patterns:
+                    dicWord2Patterns[cur] = [pattern]
+                else:
+                    dicWord2Patterns[cur].append(pattern)
+                
+        q = [(beginWord,1)]
+        visited = set()
+        
+        # bfs
+        while q:
+            first = q.pop(0)
+            word = first[0]
+            level = first[1]
+            visited.add(word)
+            
+            if word == endWord:
+                return level
+            
+            patterns = dicWord2Patterns[word]
+            for p in patterns:
+                nbors = dicPattern2Words[p]
+                q.extend([(n, level + 1) for n in nbors if n not in visited])
+                
         return 0
-
-    def ladderFind(self, beginWord, endWord, wordList):
-        self.nbors.append(beginWord)
-
-        while len(self.nbors) > 0:
-            i = self.nbors[0]
-            self.nbors = self.nbors[1:]
-            if i in self.visited:
-                continue
-
-            self.visited.append(i)
-
-            if i == endWord:
-                return True
-
-            wordList = set(x for x in wordList if x != i)
-            self.nbors.extend(self.getAllNbors(i, wordList))
-
-        return False
-
-    def getAllNbors(self, word, wordList):
-        nbors = []
-        for i in wordList:
-            if self.isEditDistOne(word, i):
-                nbors.append(i)
-        return nbors
-
-    def isEditDistOne(self, a, b):
-        # note - a and b have the same length in this problem
-        m = len(a)
-        i = 0
-        j = 0
-        count = 0
-        while i < m and j < m:
-            if a[i] == b[j]:
-                i +=1
-                j +=1
-                continue
-            else:
-                if count == 1:
-                    return False
-                count += 1
-                i +=1
-                j +=1
-
-        return count == 1
-
-s = Solution()
-print(s.ladderLength("hit", "cog", ["hot", "dog", "dot", "lot", "log", "cog"]))
