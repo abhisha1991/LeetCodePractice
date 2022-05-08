@@ -1,6 +1,8 @@
 # https://www.youtube.com/watch?v=T6E74ypY_tU
 # https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
 import sys
+# https://www.youtube.com/watch?v=T6E74ypY_tU
+import sys
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
         # note arr contains only leaf nodes!
@@ -55,7 +57,7 @@ class Solution:
                 # because for "parent of leaf nodes", say 12 below we will return something like (6,0), (2,0)
                 # since "non-leaf node sum" for a leaf node is 0
                 # so we calculate 12 itself as product of max leaf nodes, 6x2
-                # at the next level, we calcualte 24 as product of max leaf nodes 6x4
+                # at the next level, we calculate 24 as product of max leaf nodes 6x4
                 # so total sum of non-leaf nodes at root is = 24 (self = mxleaf1 x mxleaf2) + 12 (c1) + 0 (c2)
                 '''
                             24  (minSum = 6 x 4 + 12 + 0, maxLeaf=6)
@@ -69,7 +71,7 @@ class Solution:
                 total = c1 + c2 + l1 * l2
                 if total < minSum:
                     minSum = total
-                    maxLeaf = max(l1, l2)
+                maxLeaf = max(l1, l2)
                     
                 i +=1
             
