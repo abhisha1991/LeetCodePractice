@@ -24,13 +24,15 @@ class Solution:
                     dicWord2Patterns[cur] = [pattern]
                 else:
                     dicWord2Patterns[cur].append(pattern)
-                
-        q = [(beginWord,1)]
+
+        # use a deque, its faster than using a regular list and doing pop(0)        
+        q = deque()
+        q.append((beginWord,1))
         visited = set()
         
         # bfs
         while q:
-            first = q.pop(0)
+            first = q.popleft()
             word = first[0]
             level = first[1]
             visited.add(word)
