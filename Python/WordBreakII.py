@@ -10,6 +10,8 @@ class Solution:
         string = s
         
         def dfs(idx, path):
+            # we've reached the end of the string if the index is greater than length of string
+            # so add to result, as you were able to navigate the entire string with a set of words from wordDict
             if idx >= len(string):
                 # remember that initially, we would have added an extra space before the 1st word
                 # thus we do the stripping of spaces from the ends of the string
