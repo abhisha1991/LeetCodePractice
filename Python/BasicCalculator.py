@@ -1,8 +1,16 @@
 # https://leetcode.com/problems/basic-calculator
+# this one contains paranthesis and + and - only
 class Solution:
     def calculate(self, s: str) -> int:
+        # we add () to the string's ends to actually trigger an evaluation
+        # notice how we call an evaluation command only when we encounter a paranthesis, 
+        # so if input had no paranthesis - say it was 7-8+9, then we would never evaluate it 
         s = "(" + s + ")"
         s = s.replace(" ", "")
+        # if we are going to use stack, we process elements from right to left, which we don't want to do
+        # imagine processing 7-8+9 from right to left, we first evaluate 8+9=17 and then we evaluate 17-7=10
+        # which is the wrong answer! we rather need to evaluate 7-8 first and then -1+9=8
+        # thus we reverse the list, so that we are processing elements in the stack in the "correct" left to right order
         s = list(reversed(s))
         stack = []
         op = ["+", "-", "*", "/"]
@@ -20,11 +28,13 @@ class Solution:
         
         i = 0
         while i < len(s):
+            # the ) is actually an OPEN bracket! recall reversing the list
             if s[i] == ')':
                 stack.append(s[i])
                 i +=1
                 continue
             
+            # if s[i] is a digit, find the entire number and add to stack
             if s[i].isdigit():
                 j = 0
                 num = int(s[i]) * 10**j
@@ -35,12 +45,15 @@ class Solution:
                     i +=1
                 
                 stack.append(num)
-                
+            
+            # if s[i] is an operator, then add to stack
             if i < len(s) and s[i] in op:
                 stack.append(s[i])
                 i +=1
                 continue
             
+            # the ( is actually a CLOSE bracket! recall reversing the list
+            # the CLOSE bracket actually triggers an evaluate function call
             if s[i] == '(':
                 ele = []
                 while stack and stack[-1] != ')':

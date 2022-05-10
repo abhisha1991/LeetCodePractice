@@ -1,4 +1,5 @@
-# # https://leetcode.com/problems/basic-calculator-ii
+# https://leetcode.com/problems/basic-calculator-ii
+# all operators (+, -, *, /) but no paranthesis
 class Solution:
     def calculate(self, s: str) -> int:
         s = s.replace(' ', '')
