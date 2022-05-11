@@ -88,14 +88,13 @@ class LRUCache:
                 # before we can insert our current key, value
                 # least recently used is going to be next to self.left (on the right)
                 lru = self.left.nxt
+                # this is why we stored the key in the Node object as well -- so we can access it easily during eviction time
                 kLru = lru.key
                 # remove lru node from double linked list and from cache
                 self.remove(lru)
                 del self.cache[kLru]
                 
                 # now we can add this current key,value we were originally planning to add
-                # note that capacity doesn't change here since we're already at capacity
-                # and we just deleted an older key and added a newer one
                 self.cache[key] = Node(key, value)
                 self.insert(self.cache[key])
         
