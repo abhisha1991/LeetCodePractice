@@ -1,19 +1,33 @@
 # https://leetcode.com/problems/ways-to-split-array-into-three-subarrays/
-import bisect
 class Solution:
+    # this solution is o(n)
     def waysToSplit(self, nums: List[int]) -> int:
-        prefix = [0]
-        for x in nums: 
-            prefix.append(prefix[-1] + x)
+        prefix = [nums[0]]
+        for x in range(1, len(nums)): 
+            prefix.append(prefix[-1] + nums[x])
         
         mod = 10**9 + 7
         ans = 0
-        for i in range(1, len(nums)): 
-            j = bisect_left(prefix, 2*prefix[i])
-            k = bisect_right(prefix, (prefix[i] + prefix[-1])//2)
-            ans += max(0, min(len(nums), k) - max(i+1, j))
-        return ans % mod
-    
+        # from the below function, we have deduced that there are 2 conditions that we need to satisfy
+        # 2 * prefix[i] <= prefix[j]
+        # prefix[j] <= (prefix[i] + prefix[-1])/2
+        i = 0
+        j = 0 # lower bound of split of mid array
+        k = 0 # upper bound of split of mid array
+        n = len(nums)
+        while i < n-2:
+            while j <= i or (j < n-1 and prefix[j] < 2 * prefix[i]):
+                j +=1
+            while k < j or (k < n-1 and prefix[n-1] - prefix[k] >= prefix[k] - prefix[i]):
+                k +=1
+            
+            ans = (ans+ k-j) % mod
+            i +=1
+        return ans
+                
+        
+    # this will only work if 0 is not present in nums, so its an incomplete solution
+    # this solution is n(logn)
     def waysToSplit2(self, nums: List[int]) -> int:
         prefix = [0]
         # note that while nums is not in increasing order
