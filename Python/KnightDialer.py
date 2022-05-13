@@ -1,5 +1,5 @@
 # implementation is correct, but needs memoization, gets TLE on Leetcode
-# 
+# https://leetcode.com/problems/knight-dialer/
 class Solution:
     def __init__(self):
         self.paths = set()
