@@ -6,12 +6,14 @@ class Solution:
     def numberOfPatterns(self, m: int, n: int) -> int:
         skip = dict()
         # if 1,3 is a skip edge, so is 3,1
+        # this is capturing that 1,3 are connected via 2. 2 is center point
         skip[(1,3)] = 2
         skip[(3,1)] = 2
         
         skip[(1,7)] = 4
         skip[(7,1)] = 4
         
+        # diagonals are allowed
         skip[(1,9)] = 5
         skip[(9,1)] = 5
         
@@ -47,7 +49,7 @@ class Solution:
                 
                 # conditions for backtrack
                 # 1. if edge is not in skip list (regular edge like 2,3) or
-                # 2. if its center value has been visited if we're at a skip edge
+                # 2. if edge is a skip edge and its center value has been visited before
                 
                 # condition 2: say we are at (1,3), then skip[(1,3)] = 2
                 # now 2 MUST have occurred before in our path for 1,3 to be connected
