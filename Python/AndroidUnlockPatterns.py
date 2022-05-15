@@ -47,17 +47,17 @@ class Solution:
                 if nxt in visited:
                     continue
                 
-                # conditions for backtrack
+                # conditions for dfs
                 # 1. if edge is not in skip list (regular edge like 2,3) or
                 # 2. if edge is a skip edge and its center value has been visited before
                 
-                # condition 2: say we are at (1,3), then skip[(1,3)] = 2
-                # now 2 MUST have occurred before in our path for 1,3 to be connected
+                # condition 2: say we are at 1, going to nxt node 3 ie, pair is (1,3), then skip[(1,3)] = 2
+                # ie, to be able to travel to node 3 from 1 (skip edge), we must have visited the in between node 2 -- only then allow travel to 3
                 # else we cant connect them (No jumps through the center non-selected dots are allowed)
                 if (cur, nxt) not in skip or skip[(cur, nxt)] in visited:
-                    # else take next and backtrack with it
                     # jump to nxt edge
                     visited.add(nxt)
+                    # dfs
                     backtrack(nxt, visited)
                     # remove nxt edge
                     visited.remove(nxt)
