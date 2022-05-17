@@ -14,7 +14,7 @@ class Solution:
         i = 0
         # key is pid and value is total time for this pid
         ptime = dict()
-        maxend = 0
+        maxts = 0
         
         while i < len(logs):
             pid, action, ts = logs[i]
@@ -27,9 +27,9 @@ class Solution:
                     prev = stack[-1]
                     # current process start time (ts) acts as a temporary end time for prev process, 
                     # so we can capture this time delta at least
-                    ptime[prev] += ts - maxend
+                    ptime[prev] += ts - maxts
                     
-                maxend = ts
+                maxts = max(ts, maxts)
                 stack.append(pid)
                 
             
@@ -38,8 +38,8 @@ class Solution:
                 stack.pop()
                 # why ts+1? because end is indicating the ts when something starts to end
                 # the real end time is going to be ts+1
-                ptime[pid] += ts + 1 - maxend
-                maxend = ts + 1
+                ptime[pid] += ts + 1 - maxts
+                maxts = max(maxts, ts+1)
                 
             i +=1
         
