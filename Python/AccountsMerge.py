@@ -38,14 +38,12 @@ class Solution:
                 dfs(k)
                 
                 # after dfs, add the emails in group to result
-                for email in self.group:
-                    # get representative email id
-                    if email in email2Id:
-                        idx = email2Id[email]
-                        # get name corresponding to index 
+                for e, idx in email2Id.items():
+                    # if representative email is found in the group
+                    if e in self.group:
                         name = id2Name[idx]
                         resDic[idx] = [name] + sorted(list(self.group))
-                            
+                        break
         
         res = []
         for k,v in resDic.items():
