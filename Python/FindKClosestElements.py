@@ -16,8 +16,8 @@ class Solution:
         # left literally means pos that is left of window start, right literally means pos that is right of window end
 
         # window is defined from (left+1, right), ie, everything "inclusive" from left+1 to right-1 is going to be returned
-        # keep in mind that arr[i:j] means that this slice returned DOES NOT contain arr[j]
-        # because the bounds of the wndow are (left+1, right), thus the window size is right - left - 1
+        # keep in mind that arr[i:j] means that this slice returned DOES NOT contain arr[j], but DOES contain arr[i]
+        # because the bounds of the window are (left+1, right), thus the window size is right - left - 1
         while right - left - 1 < k:
             if left == -1:
                 right +=1
