@@ -36,9 +36,12 @@ class DetectSquares:
         '''
         for x3, y3 in self.dic.keys():
             if abs(x1-x3) == abs(y1-y3) and x1 != x3:
+                # why 1 * self.dic[(x3, y3)]?
+                # because there is 1 count of (x1,y1) and there are "self.dic[(x3, y3)]" counts of (x3, y3) 
                 ans = 1 * self.dic[(x3,y3)]
                 # for all 4 cases above, these are the 2 remaining points
                 if (x3, y1) in self.dic and (x1, y3) in self.dic:
+                    # if the above 2 points are also there, then multiply their counts to the answer
                     ans = ans * self.dic[(x3, y1)] * self.dic[(x1, y3)]
                     count += ans
                 
