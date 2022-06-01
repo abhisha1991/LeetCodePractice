@@ -15,11 +15,7 @@ class Solution:
         
         # initialize the cpu timer (clock) as the enqueue time for the first task
         timer = tasks[0][0]
-        t = tasks.pop(0)
-        # add the process time of this task to the timer, ie, process this task!
-        timer += t[1]
-        # add first task's id to the result since it has been processed
-        res = [t[2]]
+        res = []
         
         i = 0
         
@@ -31,7 +27,7 @@ class Solution:
                 i +=1
             
             # this is important, ie, to advance the timer so you can keep adding tasks in case you're unable to
-            # increment timer via the path of min heap
+            # increment timer via the path of min heap (else condition)
             if not minh:
                 timer = tasks[i][0]
             else:
