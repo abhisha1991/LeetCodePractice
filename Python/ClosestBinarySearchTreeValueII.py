@@ -14,9 +14,9 @@ class Solution:
         if not root:
             return []
         
-        # get all elements from tree and sort them
+        # get all elements from tree
+        # inorder traversal returns sorted order
         self.helper(root)
-        self.arr.sort()
         
         res = []
         
@@ -60,6 +60,6 @@ class Solution:
         if not root:
             return
         
-        self.arr.append(root.val)
         self.helper(root.left)
+        self.arr.append(root.val)
         self.helper(root.right)
