@@ -105,7 +105,7 @@ class Solution:
                   / \
                 10   90
                 /
-               6
+               6 <-- dock left sub tree of remove under the smallest element of right sub tree of remove
               /
              5 
         
