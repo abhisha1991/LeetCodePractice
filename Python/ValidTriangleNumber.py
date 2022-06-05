@@ -17,6 +17,8 @@ class Solution:
                 
         return count
 
+    # time complexity is n^2 logn
+    # n^2 since we're doing 2 for loops, and logn because of binary search
     def triangleNumber(self, nums: List[int]) -> int:
         count = 0
         nums.sort()
