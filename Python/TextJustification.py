@@ -41,7 +41,7 @@ class Solution:
                 # say if maxWidth was 10, and line so far was "cat dog"
                 # then k = 2, ie, 2 words are there and len(line) = 7, ie, 6 char + 1 space
                 # so spaces below is going to be 10 - 7 + 1 = 4
-                # why? -7+1 = 6, which is just the number of char in line, without spaces
+                # why? abs(-7+1) = 6, which is just the number of char in line, without spaces
                 # so what we're saying below is, let's strip the line so far off all spaces, and lets calculate
                 # total number of spaces that we need to distribute in between words, so we need to distribute 4 spaces
                 # in total for this line
