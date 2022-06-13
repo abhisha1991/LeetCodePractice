@@ -25,14 +25,22 @@ class Solution:
                 
                 # this maxdiff concept is just an optimization around 
                 # considering if we want to transact on any of the m days, where m = 0 to j-1,
-                # if we do transact on Mth day, then profit = price[j] - price[m] + res[i-1][m]
+                # if we do transact on mth day, then profit = price[j] - price[m] + res[i-1][m]
                 # which is saying, that, we do the transaction (price[j] - price[m]) and then we add to this 
-                # the state that we were in on the Mth day, one transaction row above (i-1)
-                if j == 1:
-                    maxDiff = res[i-1][0] - prices[0]
+                # the state that we were in on the mth day, one transaction row above (i-1)
+                m = j-1
+                if m == 0:
+                    maxDiff = res[i-1][m] - prices[m]
                 else:
-                    maxDiff = max(maxDiff, res[i-1][j-1] - prices[j-1])
-                
+                    # note that price[j] is fixed for jth day
+                    # in the above profit equation, profit = price[j] - price[m] + res[i-1][m]
+                    # j is fixed, but m is changing between 0 to j-1
+                    # so we can rearrange this to have profit = (res[i-1][m] - price[m]) + price[j]
+                    # or we can say profit = maxDiff + price[j]
+                    # in fact, we'll always take m to be j-1 and we don't need to iterate m from 0
+                    # to j-1 every time, since we are only taking the max
+                    maxDiff = max(maxDiff, res[i-1][m] - prices[m])
+
                 transact = maxDiff + prices[j]
                 res[i][j] = max(transact, noTransact)
         
