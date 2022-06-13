@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/kth-smallest-product-of-two-sorted-arrays/
+from heapq import *
 class Solution:
     def kthSmallestProduct(self, nums1: List[int], nums2: List[int], k: int) -> int:
         n1 = len(nums1)
