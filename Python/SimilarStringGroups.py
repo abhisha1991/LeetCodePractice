@@ -3,6 +3,9 @@ class Solution:
         def isSimilar(a, b):
             n = len(a)
             count = 0
+
+            # if there's more than 2 mismatches, then strings are not similar
+            # since you're only allowed to swap 2 chars
             for i in range(n):
                 if a[i] != b[i]:
                     count +=1
