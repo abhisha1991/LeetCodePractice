@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/similar-string-groups/
 class Solution:
     def numSimilarGroups(self, strs: List[str]) -> int:
         def isSimilar(a, b):
