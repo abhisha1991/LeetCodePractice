@@ -22,7 +22,7 @@ class Solution:
         # our right pointer is something like the "current" index which is always incremented, no matter what
         while r < len(nums):
             # check if the number we're inserting (nums[r]) is less than "equal to" (strictly increasing criteria)
-            # the last element of mnq - last element of mnq will contain idx of largest value of nums
+            # the last element of mnq - last element of mnq will contain idx of largest value of nums so far
             # so if the number we're appending is smaller than (or equal to) largest num in mnq, 
             # we cannot insert nums[r] in last pos since the strictly increasing criteria violates, 
             # so we need to pop till nums[r] becomes the largest in mnq and its safe to append 'r' in the last pos
@@ -46,8 +46,9 @@ class Solution:
                 l += 1
                 
                 # we need to throw out any invalid window indices from the queues
-                # if our left pointer of window has moved further "right" than what is there in the 
+                # if our left pointer of window has moved further "right" than indices that are there in the 
                 # front of any of the queues, then pop
+                # why check front - becuase those will contain the smallest indices since they were encountered before
                 if l > mnq[0]:
                     mnq.popleft()
                 
