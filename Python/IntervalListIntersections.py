@@ -1,57 +1,34 @@
-# https://leetcode.com/problems/interval-list-intersections/ - trace this with original example to understand solution below
-class Solution(object):
-    def intervalIntersection(self, A, B):
-        """
-        :type A: List[List[int]]
-        :type B: List[List[int]]
-        :rtype: List[List[int]]
-        """
-        lenA = len(A)
-        lenB = len(B)
+# https://leetcode.com/problems/interval-list-intersections
+class Solution:
+    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
+        if not firstList or not secondList:
+            return []
         
         i = 0
         j = 0
+        n1 = len(firstList)
+        n2 = len(secondList)
         res = []
-        while (i < lenA and j < lenB):
-            a = A[i]
-            b = B[j]
+        while i < n1 and j < n2:
+            a = firstList[i]
+            b = secondList[j]
             
-            # try and find an intersection
-            startmax = max(a[0], b[0])
-            endmin = min(a[1], b[1])
+            startMax = max(a[0], b[0])
+            endMin = min(a[1], b[1])
             
             # if the intersection has start and end that are valid
             # notice the equal to as well, so this includes intervals like [5,5]
-            if endmin >= startmax:
-                res.append([startmax, endmin])
-                
-            # update i and j, based on endmin - whoever has reached the end
-            if endmin == a[1]:
+            if endMin >= startMax:
+                res.append([startMax, endMin])
+            
+            # notice that we are not doing increment of i, j in if/else manner
+            # we are independently incrementing i,j
+            # why? because we could have an equality clash on endMin
+            # for example, a = [4,5], b = [3,5] --> endMin for both is 5, so we want to increment both lists
+            if endMin == a[1]:
                 i +=1
-            if endmin == b[1]:
+                
+            if endMin == b[1]:
                 j +=1
         
         return res
-
-# here's an attempt that didnt work - lost the code unforuntately:
-'''
-high level explanation:
-1. create an array 'arr1' where we will fill a spot with 'a' if it is in the intervals of A
-2. create an array 'arr2' where we will fill a spot with 'b' if it is in the intervals of B 
-3. if we have a spot outside of the ranges marked in A or B, then fill those spots in arr1 and arr2 with 'x'
-
-So the example in the original case becomes:
-A = [[0,2], [5,10], [13,23], [24,25]]
-B = [[1,5], [8,12], [15,24], [25, 26]]
-Ans = [1,2], [8,10], [15,23], [24,24], [25,25]
-
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
-a a a x x a a a a a a  x  x  a  a  a  a  a  a  a  a  a  a  a  a  a  x  <--- arr1
-x b b b b b x x b b b  b  b  x  x  b  b  b  b  b  b  b  b  b  b  b  b  <--- arr2
-
-Now the intersection becomes all those start / end points where we have both 'a' and 'b'
-[1,2], [5,5], [8,10], [15,25]
-This works great for the most part, except that it loses the ability to partition on the basis of intervals, like [15, 25].
-The correct partition should have been [15,23], [24,24], [25,25]
-
-'''
