@@ -27,17 +27,21 @@ class Folder:
 
 class Solution():
     def __init__(self, folderList):
+        # parents holds the folders with ID 0
         self.parents = []
+        # non parents holds the folders with non 0 ID
         self.nonparents = dict()
+
         for f in folderList:
             if f.idx == 0:
                 self.parents.append(f)
             else:
                 self.nonparents[f.idx] = f
         
-        self.buildTrie(self.parents)
+        # construct the folder relationships
+        self.buildFolderPaths(self.parents)
     
-    def buildTrie(self, parents):
+    def buildFolderPaths(self, parents):
         for f in parents:
             childList = []
             for ff in f.subfolders:
@@ -45,7 +49,7 @@ class Solution():
                 f.sub[ff] = child
                 childList.append(child)
             
-            self.buildTrie(childList)
+            self.buildFolderPaths(childList)
         
         
     def printPath(self, num):
@@ -61,7 +65,10 @@ class Solution():
             
             for ff in node.sub.values():
                 dfs(ff, num, path + [node.name])
-                                
+
+
+        # the folder with id num can be in any of the parents
+        # so we need to call dfs on each of them
         for f in self.parents:
             dfs(f, num, [])
         
