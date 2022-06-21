@@ -52,8 +52,11 @@ class Solution:
             if source not in graph:
                 return False
             
-            # we are using the fact that we pop from graph[node]
+            # we are using the fact that we pop from graph[source] as a criteria for "visited"
+            # so we enumerate over a copy of graph[source] since we cannot enumerate over 
+            # graph[source] and pop from it at the same time
             tmp = list(graph[source])
+            
             for i, dest in enumerate(tmp):
                 # visit the ith destination, thereby popping it from graph[source] 
                 graph[source].pop(i)
