@@ -74,7 +74,9 @@ class Solution():
         
         return self.res
 
-s = Solution([Folder(0, [7, 3], "abc"), Folder(0, [11], "xyz"), Folder(3, [100], "pqr"), Folder(8, [], "def"), Folder(7, [9], "ijk"), Folder(9, [], "lmn"), Folder(11,[],"ijk"), Folder(100, [], "pqrs"), ])
+s = Solution([Folder(0, [7, 3], "abc"), Folder(0, [11], "xyz"), 
+Folder(3, [100], "pqr"), Folder(8, [], "def"), Folder(7, [9], "ijk"), 
+Folder(9, [], "lmn"), Folder(11,[],"ijk"), Folder(100, [], "pqrs")])
 
 print(s.printPath(9))
 print(s.printPath(11))
