@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/kth-missing-positive-number
+# this is o(1) space but o(n) in time
 class Solution:
     # [1,2,3], k = 2 --> result = 5 (special case - end of arr)
     # [3,4,5], k = 2 --> result = 2 (special case - front of arr)
