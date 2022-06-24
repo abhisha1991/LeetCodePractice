@@ -7,8 +7,26 @@
 #         self.right = right
 import bisect
 class Solution:
-    # this is an o(n) solution since we're having to construct the binary search tree into an arr
+    # this is an o(logn) solution since you're getting the closest value as you walk down the tree
     def closestValue(self, root: Optional[TreeNode], target: float) -> int:
+        if not root:
+            return None
+        
+        closest = root.val
+        while root:
+            if abs(root.val - target) < abs(closest - target):
+                closest = root.val
+            
+            if target < root.val:
+                root = root.left
+                
+            else:
+                root = root.right
+            
+        return closest
+
+    # this is an o(n) solution since we're having to construct the binary search tree into an arr
+    def closestValue2(self, root: Optional[TreeNode], target: float) -> int:
         self.arr = []
         
         def helper(node):
