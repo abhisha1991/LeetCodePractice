@@ -35,8 +35,10 @@ class Solution:
                         res +=1
                         missed +=1
                     
+                    # we kept incrementing until missed < k, now missed == k, so res is the kth number which was missing
                     return res
         
+        # this is handling the case when arr = [1,2,3], k = 2, so the missing number is present toward the end of the arr
         res = arr[-1]
         while missed < k:
             res +=1
