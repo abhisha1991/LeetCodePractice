@@ -1,41 +1,39 @@
-# https://leetcode.com/problems/find-largest-value-in-each-tree-row/
+# https://leetcode.com/problems/find-largest-value-in-each-tree-row/ 
 # Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def __init__(self):
-        self.dic = dict()
-        self.h = 0
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import defaultdict
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        q = []
         
-    def largestValues(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        self.helper(root, 0)
-        if len(self.dic) == 0: return []
+        if not root:
+            return []
         
-        return [self.dic[i] for i in range(self.h + 1)]
+        # store node and level in the queue
+        q.append((root, 0))
+        # levels is the dictionary that stores all the node values, left to right at a level
+        levels = defaultdict(list)
         
+        # do bfs
+        while q:
+            node, lvl = q.pop(0)
+            levels[lvl].append(node.val)
+            
+            if node.left:
+                q.append((node.left, lvl+1))
+            
+            if node.right:
+                q.append((node.right, lvl+1))
+            
+            
+        res = []
+        last = max(levels.keys()) + 1
+        for i in range(last):
+            # store the largest node value per level in res
+            res.append(max(levels[i]))
         
-    def helper(self, root, depth):
-        if root == None:
-            return
-        
-        # if key doesnt exist in dic
-        if self.dic.get(depth) == None:
-            self.dic[depth] = root.val
-        # else capture max root val into the dictionary for the given depth
-        elif self.dic[depth] < root.val:
-            self.dic[depth] = root.val
-        
-        if self.h < depth:
-            self.h = depth
-        
-        self.helper(root.left, depth+1)
-        self.helper(root.right, depth+1)
-        
+        return res
