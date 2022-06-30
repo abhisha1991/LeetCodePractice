@@ -1,10 +1,10 @@
 # https://leetcode.com/problems/valid-palindrome/submissions/
-import re
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        s = s.strip()
-        s = s.replace(' ', '')
         s = s.lower()
-        s = re.sub(r'[^a-zA-Z0-9]', '', s)
+        res = []
+        for i in s:
+            if (i >= '0' and i <= '9') or (i >= 'a' and i <= 'z'):
+                res.append(i)
         
-        return s == s[::-1]
+        return res == res[::-1]
