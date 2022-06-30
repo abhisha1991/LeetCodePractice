@@ -1,36 +1,28 @@
 # https://leetcode.com/problems/custom-sort-string/
 from collections import defaultdict
+class Solution:
+    def customSortString(self, order: str, s: str) -> str:
+        dic = defaultdict(int)
+        # create a freq counter for all letters in 's'
+        for i in s:
+            dic[i] +=1
+        
+        res = []
+        # go through order
+        for o in order:
+            # if char exists in 's'
+            if o in dic:
+                # then add all those chars x freq in res
+                res.extend([o] * dic[o])
+                # delete that key from counter dictionary since we have handled that character
+                del dic[o]
 
-class Solution(object):
-    def customSortString(self, S, T):
-        """
-        :type S: str
-        :type T: str
-        :rtype: str
-        """
-        # this holds the number of occurrences of all characters in T
-        dictt = dict()
-        for i in range(len(T)):
-            if T[i] not in dictt.keys():
-                dictt[T[i]] = 1
-            else:
-                dictt[T[i]] += 1
-        
-        res =''
-        for j in S:
-            while j in dictt and dictt[j] > 0:
-                res +=j
-                dictt[j] -=1
-            # remove the dictionary key once you have added all occurrences to res so you dont have to iterate on it again
-            dictt.pop(j, None)
-        
-        # for the remaining keys that were in T and not in S, just add them to the end of res
-        for k in dictt.keys():
-            while dictt[k] > 0:
-                res +=k
-                dictt[k] -=1
-        
-        return res
+        # for the remaining chars that were not handled
+        # append them to the end. For each char, add freq number of additions to the end of res
+        for k,v in dic.items():
+            res.extend([k] * v)
+            
+        return ''.join(res)res
         
         
         
