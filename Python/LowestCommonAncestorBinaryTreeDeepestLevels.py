@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves
+# https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes (same problem)
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
