@@ -20,6 +20,7 @@ class Solution:
                 length +=1
             
             # if the node and its parent are not 1 unit apart, then reset the length to 1
+            # why reset to 1? because you're counting the current node as the starting point
             if parent and node.val != parent.val + 1:
                 length = 1
             
