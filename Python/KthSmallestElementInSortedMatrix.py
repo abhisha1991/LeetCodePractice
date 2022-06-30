@@ -30,7 +30,10 @@ class Solution:
         now how do we traverse through the sorted matrix such that 
         we ensure we are always seeking smallest elements to add to our heap?
         
-        imagine you have below matrix and k = 5, so far heap is 
+        1 5 8  20
+        3 6 9  21
+        4 7 11 40
+        imagine you have above matrix and k = 5, so far heap is 
                         1
                        / \
                       3   4
@@ -54,10 +57,6 @@ class Solution:
                       
         notice how we were able to access 2nd row's next smallest element (6) - ACROSS ROW TRAVERSAL  
         because we had added '3' in our initial heap construction 
-        
-        1 5 8  20
-        3 6 9  21
-        4 7 11 40
         
         this is the way in which we are able to traverse through multiple rows and along the same row as well!
         we naturally pick the smallest element along the same/diff row because the rows/cols are sorted (given)
