@@ -7,7 +7,14 @@ Given a file consisting of lines like this:
 2023-02-01T20:09:00 Operation WXY Start
 2023-02-01T10:08:00 Operation XYZ Start
 2023-02-01T20:12:00 Operation WXY End
-Can you write a program to read these lines and output the average runtime of all operations?
+Can you write a program to read these lines and output the average runtime of all ELIGIBLE operations?
+
+Notes: 
+1. Assume all start times are after end times for a given process (follow up -- what if they're not?)
+2. Operation names are case sensitive
+3. Operations may not necessarily end after they stop
+4. Eligible operations are those that both start and end
+5. Operation can only start once and possibly end once
 '''
 from collections import defaultdict
 
