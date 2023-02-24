@@ -3,9 +3,9 @@ Given a file consisting of lines like this:
 2023-02-01T10:00:00 Operation ABC Start
 2023-02-01T10:01:00 Operation ABC End
 2023-02-01T10:02:00 Operation DEF Start
-2023-02-01T10:08:00 Operation XYZ Start
+2023-02-01T10:10:00 Operation XYZ End
 2023-02-01T20:09:00 Operation WXY Start
-2023-02-01T20:10:00 Operation XYZ End
+2023-02-01T10:08:00 Operation XYZ Start
 2023-02-01T20:12:00 Operation WXY End
 Can you write a program to read these lines and output the average runtime of all operations?
 '''
